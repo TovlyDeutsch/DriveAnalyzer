@@ -1,11 +1,13 @@
 <!-- Marked portions adapted from Google Drive API quickstart (https://developers.google.com/drive/v3/web/quickstart/js) -->
 <!-- Marked portions adapted from material design lite examples (https://getmdl.io/components/index.html) -->
+
 <html>
   <head>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-    <!--End from Google Drive API quickstart-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
     <!-- Uses a transparent header that draws on top of the layout's background -->
@@ -17,7 +19,7 @@
 <header class="mdl-layout__header">
   <div class="mdl-layout__header-row">
     <!-- Title -->
-    <span class="mdl-layout-title">Title</span>
+    <span class="mdl-layout-title">Google Drive Analyzer</span>
   </div>
   <!-- Tabs -->
   <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
@@ -34,14 +36,30 @@
     <div class="page-content">
       <!--Start from Google Drive API quickstart-->
       <div id="authorize-div" style="display: none">
-        <span>Authorize access to Drive API</span>
+        <h4>Authorize access to your Google Drive</h4>
         <!--Button for the user to click to initiate auth sequence -->
-        <button id="authorize-button" onclick="handleAuthClick(event)">
+        <button id="authorize-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="handleAuthClick(event)">
           Authorize
         </button>
       </div>
       <!--End from Google Drive API quickstart-->
-      <p id='file-count'>File Count Loading</p>
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col"></div>
+        <div class="mdl-cell mdl-cell--4-col">
+          <div id='stats'>
+            <div id='content'>
+              <h3>Files in your Drive:</h3>
+              <h4 id='file-count'></h4>
+            </div>
+            <ul class="loader">
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mdl-cell mdl-cell--4-col"></div>
+      </div>
     </div> <!-- end tab 1 content -->
   </section>
   <section class="mdl-layout__tab-panel" id="fixed-tab-2">

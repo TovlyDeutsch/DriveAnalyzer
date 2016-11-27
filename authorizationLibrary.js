@@ -1,7 +1,6 @@
 // This code and comments is taken directly from Google Drive API documentation quickstart //(https://developers.google.com/drive/v3/web/quickstart/js) as a base mini-library
 
 var CLIENT_ID = '363872304328-t3h8sa4icpbaj9lkrpraf5ujoidtsc6h.apps.googleusercontent.com';
-
 var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
 
 /**
@@ -30,7 +29,9 @@ function checkAuth() {
     } else {
       // Show auth UI, allowing the user to initiate authorization by
       // clicking authorize button.
-      authorizeDiv.style.display = 'inline';
+      authorizeDiv.style.display = 'block';
+      // line below added by Tovly
+      $('.mdl-grid').hide()
     }
   }
 

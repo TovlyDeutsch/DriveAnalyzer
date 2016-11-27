@@ -1,3 +1,116 @@
-a {
-  
+.mdl-layout__header, .mdl-layout__tab-bar {
+    background-color: #11864d !important;
+}
+
+.mdl-grid {
+  display: inline-block;
+  margin: auto;
+}
+
+#file-count {
+  text-align: center;
+}
+
+#authorize-div {
+  display: block;
+  margin: 10em auto;
+  width: 300px;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+.mdl-button {
+  background-color: #4687F4 !important;
+}
+// loading animation below adapted from  http://tympanus.net/codrops/2012/11/14/creative-css-loading-animations/
+
+:root {
+  --rotationEasing: linear;
+  --rotationTime: 4s;
+}
+
+.loader {
+  font-size: 100px;
+  width: 1em;
+  height: auto;
+  position: relative;
+  margin: 150px auto;
+  list-style: none;
+}
+
+.loader li {
+  position: absolute;
+  width: .3em;
+  height: .2em;
+  transform-origin: 0em 0em;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+.loader li:nth-child(1) {
+  background: #4687F4;
+  animation: rota1 4s linear infinite;
+}
+
+.loader li:nth-child(2) {
+  background: #1FA463;
+  animation: rota2 4s linear infinite;
+}
+
+.loader li:nth-child(3) {
+  background: #FFCF49;
+  animation: rota3 4s linear infinite;
+}
+
+@keyframes rota1 {
+  0% {
+    transform: rotate(0deg) skew(20deg);
+    transform-origin: 40% 40%;
+    /*     animation-timing-function: ease-in; */
+  }
+  50% {
+    transform: rotate(540deg) skew(20deg);
+    margin: 0.25em 0 0 0;
+    transform-origin: 0 -0.15em;
+  }
+  100% {
+    transform: rotate(1080deg) skew(20deg);
+    transform-origin: 40% 40%;
+    animation-timing-function: ease-out;
+  }
+}
+@keyframes rota2 {
+  0% {
+    transform: rotate(120deg) skew(20deg);
+    transform-origin: 40% 40%;
+  }
+  50% {
+    transform: rotate(660deg) skew(20deg);
+    margin: 0.25em 0 0 0;
+    transform-origin: 0 -0.15em;
+  }
+  100% {
+    transform: rotate(1200deg) skew(20deg);
+    transform-origin: 40% 40%;
+    animation-timing-function: ease-out;
+  }
+}
+@keyframes rota3 {
+  0% {
+    transform: rotate(240deg) skew(20deg);
+    transform-origin: 40% 40%;
+  }
+  50% {
+    transform: rotate(780deg) skew(20deg);
+    margin: 0.25em 0 0 0;
+    transform-origin: 0 -0.15em;
+  }
+  100% {
+    transform: rotate(1320deg) skew(20deg);
+    transform-origin: 40% 40%;
+    animation-timing-function: ease-out;
+  }
 }
