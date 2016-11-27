@@ -52,17 +52,17 @@ h3 {
 
 .loader li:nth-child(1) {
   background: #4687F4;
-  animation: rota1 4s linear infinite;
+  animation: rota1 3s linear infinite;
 }
 
 .loader li:nth-child(2) {
   background: #1FA463;
-  animation: rota2 4s linear infinite;
+  animation: rota2 3s linear infinite;
 }
 
 .loader li:nth-child(3) {
   background: #FFCF49;
-  animation: rota3 4s linear infinite;
+  animation: rota3 3s linear infinite;
 }
 
 @keyframes rota1 {
