@@ -1,0 +1,22 @@
+<!-- Marked portions adapted from Google Drive API quickstart  (https://developers.google.com/drive/v3/web/quickstart/js) -->
+<html>
+  <head>
+    <!--Start from Google Drive API quickstart-->
+    <script src="authorizationLibrary.js"></script>
+    <script src="driveRetrieval.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+    <!--End from Google Drive API quickstart-->
+  </head>
+  <body>
+    <!--Start from Google Drive API quickstart-->
+    <div id="authorize-div" style="display: none">
+      <span>Authorize access to Drive API</span>
+      <!--Button for the user to click to initiate auth sequence -->
+      <button id="authorize-button" onclick="handleAuthClick(event)">
+        Authorize
+      </button>
+    </div>
+    <!--End from Google Drive API quickstart-->
+    <p id='file-count'></p>
+  </body>
+</html>
