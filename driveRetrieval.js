@@ -1,4 +1,4 @@
-files = [];
+files = []
 
 // makes a request to Google Drive API for files
 function getFiles(nextPageToken) {
@@ -16,10 +16,10 @@ function getFiles(nextPageToken) {
   var request = gapi.client.drive.files.list(parameters)
 
   request.then(function(response){
-    files = files.concat(response.result.files);
+    files = files.concat(response.result.files)
     // if there is a new nextPageToken, make a new request (recursively)
     if (response.result.nextPageToken) {
-      getFiles(response.result.nextPageToken);
+      getFiles(response.result.nextPageToken)
     }
     // else, if there are no more files to retrieve, print files
     else {
@@ -29,6 +29,6 @@ function getFiles(nextPageToken) {
         }
         document.getElementById('file-count').innerHTML = files.length
     }
-  });
+  })
 
 } // end getFiles()

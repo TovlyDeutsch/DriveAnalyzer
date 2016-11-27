@@ -1,22 +1,65 @@
-<!-- Marked portions adapted from Google Drive API quickstart  (https://developers.google.com/drive/v3/web/quickstart/js) -->
+<!-- Marked portions adapted from Google Drive API quickstart (https://developers.google.com/drive/v3/web/quickstart/js) -->
+<!-- Marked portions adapted from material design lite examples (https://getmdl.io/components/index.html) -->
 <html>
   <head>
-    <!--Start from Google Drive API quickstart-->
-    <script src="authorizationLibrary.js"></script>
-    <script src="driveRetrieval.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
     <!--End from Google Drive API quickstart-->
   </head>
   <body>
-    <!--Start from Google Drive API quickstart-->
-    <div id="authorize-div" style="display: none">
-      <span>Authorize access to Drive API</span>
-      <!--Button for the user to click to initiate auth sequence -->
-      <button id="authorize-button" onclick="handleAuthClick(event)">
-        Authorize
-      </button>
-    </div>
-    <!--End from Google Drive API quickstart-->
-    <p id='file-count'></p>
+    <!-- Uses a transparent header that draws on top of the layout's background -->
+<style>
+</style>
+<!-- nav bar framework/structure from https://getmdl.io/components/index.html#layout-section -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+          mdl-layout--fixed-tabs">
+<header class="mdl-layout__header">
+  <div class="mdl-layout__header-row">
+    <!-- Title -->
+    <span class="mdl-layout-title">Title</span>
+  </div>
+  <!-- Tabs -->
+  <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+    <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Statistics</a>
+    <a href="#fixed-tab-2" class="mdl-layout__tab">Tab 2</a>
+    <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
+  </div>
+</header>
+<div class="mdl-layout__drawer">
+  <span class="mdl-layout-title">Title</span>
+</div>
+<main class="mdl-layout__content">
+  <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+    <div class="page-content">
+      <!--Start from Google Drive API quickstart-->
+      <div id="authorize-div" style="display: none">
+        <span>Authorize access to Drive API</span>
+        <!--Button for the user to click to initiate auth sequence -->
+        <button id="authorize-button" onclick="handleAuthClick(event)">
+          Authorize
+        </button>
+      </div>
+      <!--End from Google Drive API quickstart-->
+      <p id='file-count'>File Count Loading</p>
+    </div> <!-- end tab 1 content -->
+  </section>
+  <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+    <div class="page-content">sg<!-- Your content goes here --></div>
+  </section>
+  <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+    <div class="page-content">fewag<!-- Your content goes here --></div>
+  </section>
+</main>
+</div>
+
+
+    <script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.17.5'><\/script>".replace("HOST", location.hostname));
+//]]></script>
   </body>
+  <!--Start from Google Drive API quickstart-->
+  <script src="authorizationLibrary.js"></script>
+  <script src="driveRetrieval.js"></script>
+  <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 </html>
