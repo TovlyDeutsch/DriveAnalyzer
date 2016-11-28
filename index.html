@@ -2,82 +2,89 @@
 <!-- Marked portions adapted from material design lite examples (https://getmdl.io/components/index.html) -->
 
 <html>
-  <head>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <!-- Uses a transparent header that draws on top of the layout's background -->
-<style>
-</style>
-<!-- nav bar framework/structure from https://getmdl.io/components/index.html#layout-section -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
-          mdl-layout--fixed-tabs">
-<header class="mdl-layout__header">
-  <div class="mdl-layout__header-row">
-    <!-- Title -->
-    <span class="mdl-layout-title">Google Drive Analyzer</span>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+</head>
+<body>
+  <!-- nav bar framework/structure from https://getmdl.io/components/index.html#layout-section -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+  mdl-layout--fixed-tabs">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Google Drive Analyzer</span>
+    </div>
+    <!-- Tabs -->
+    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+      <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Statistics</a>
+      <a href="#fixed-tab-2" class="mdl-layout__tab">List View</a>
+      <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Title</span>
   </div>
-  <!-- Tabs -->
-  <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-    <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Statistics</a>
-    <a href="#fixed-tab-2" class="mdl-layout__tab">Tab 2</a>
-    <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
-  </div>
-</header>
-<div class="mdl-layout__drawer">
-  <span class="mdl-layout-title">Title</span>
-</div>
-<main class="mdl-layout__content">
-  <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
-    <div class="page-content">
-      <!--Start from Google Drive API quickstart-->
-      <div id="authorize-div" style="display: none">
-        <h4>Authorize access to your Google Drive</h4>
-        <!--Button for the user to click to initiate auth sequence -->
-        <button id="authorize-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="handleAuthClick(event)">
-          Authorize
-        </button>
-      </div>
-      <!--End from Google Drive API quickstart-->
-      <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--4-col"></div>
-        <div class="mdl-cell mdl-cell--4-col">
-          <div id='stats'>
-            <div id='content'>
-              <h3>Files in your Drive:</h3>
-              <h4 id='file-count'></h4>
-            </div>
-            <ul class="loader">
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
+  <main class="mdl-layout__content">
+    <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+      <div class="page-content">
+        <!--Start from Google Drive API quickstart-->
+        <div id="authorize-div" style="display: none">
+          <h4>Authorize access to your Google Drive</h4>
+          <!--Button for the user to click to initiate auth sequence -->
+          <button id="authorize-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="handleAuthClick(event)">
+            Authorize
+          </button>
         </div>
-        <div class="mdl-cell mdl-cell--4-col"></div>
+        <!--End from Google Drive API quickstart-->
+        <div class="mdl-grid mdl-color-text--grey-600">
+          <div class="mdl-cell mdl-cell--6-col">
+            <div id='file-count-wrapper'>
+              <div id='content'>
+                <p class="mdl-typography--display-1">Files in your Drive:</p>
+                <p id='file-count' class="mdl-typography--headline">
+                  <ul class="loader">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="mdl-cell mdl-cell--6-col">
+            <div id='content'>
+              <p class="mdl-typography--display-1">Percentage by File Type</p>
+              <!-- insert graph here -->
+            </div>
+          </div> <!-- end right column -->
+        </div> <!-- end grid -->
+      </div> <!-- end tab 1 content -->
+    </section>
+    <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+      <div id="content2" class="page-content">
       </div>
-    </div> <!-- end tab 1 content -->
-  </section>
-  <section class="mdl-layout__tab-panel" id="fixed-tab-2">
-    <div class="page-content">sg<!-- Your content goes here --></div>
-  </section>
-  <section class="mdl-layout__tab-panel" id="fixed-tab-3">
-    <div class="page-content">fewag<!-- Your content goes here --></div>
-  </section>
-</main>
+    </section>
+    <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+      <div class="page-content">fewag<!-- Your content goes here --></div>
+    </section>
+  </main>
 </div>
 
 
-    <script id="__bs_script__">//<![CDATA[
-    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.17.5'><\/script>".replace("HOST", location.hostname));
-//]]></script>
-  </body>
-  <!--Start from Google Drive API quickstart-->
-  <script src="authorizationLibrary.js"></script>
-  <script src="driveRetrieval.js"></script>
-  <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+<script id="__bs_script__">//<![CDATA[
+  document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.17.5'><\/script>".replace("HOST", location.hostname));
+  //]]>
+  </script>
+</body>
+<script src="authorizationLibrary.js"></script>
+<script src="driveRetrieval.js"></script>
+<script src="stats.js"></script>
+<!--Start from Google Drive API quickstart-->
+<script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 </html>
