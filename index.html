@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+  <script src="authorizationLibrary.js"></script>
 </head>
 <body>
   <!-- nav bar framework/structure from https://getmdl.io/components/index.html#layout-section -->
@@ -21,27 +22,27 @@
       <span class="mdl-layout-title">Google Drive Analyzer</span>
     </div>
     <!-- Tabs -->
-    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-      <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Statistics</a>
-      <a href="#fixed-tab-2" class="mdl-layout__tab">List View</a>
-      <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Statistics</a>
+        <a href="#fixed-tab-2" class="mdl-layout__tab">List View</a>
+        <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
     </div>
   </header>
+  <!--Start from Google Drive API quickstart-->
+  <div id="authorize-div" style="display: none">
+    <h4>Authorize access to your Google Drive</h4>
+    <!--Button for the user to click to initiate auth sequence -->
+    <button id="authorize-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="handleAuthClick(event)">
+      Authorize
+    </button>
+  </div>
+  <!--End from Google Drive API quickstart-->
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Title</span>
   </div>
-  <main class="mdl-layout__content">
+  <main class="mdl-layout__content none">
     <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
       <div class="page-content">
-        <!--Start from Google Drive API quickstart-->
-        <div id="authorize-div" style="display: none">
-          <h4>Authorize access to your Google Drive</h4>
-          <!--Button for the user to click to initiate auth sequence -->
-          <button id="authorize-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="handleAuthClick(event)">
-            Authorize
-          </button>
-        </div>
-        <!--End from Google Drive API quickstart-->
         <div class="mdl-grid mdl-color-text--grey-600">
           <div class="mdl-cell mdl-cell--6-col">
             <div id='file-count-wrapper'>
@@ -82,7 +83,7 @@
   //]]>
   </script>
 </body>
-<script src="authorizationLibrary.js"></script>
+
 <script src="driveRetrieval.js"></script>
 <script src="stats.js"></script>
 <!--Start from Google Drive API quickstart-->

@@ -25,14 +25,14 @@ function checkAuth() {
     if (authResult && !authResult.error) {
       // Hide auth UI, then load client library.
       authorizeDiv.style.display = 'none';
-      $('.mdl-grid').style('display', 'inline-block')
-      loadDriveApi();
+      $('.none').removeClass('none')
+      loadDriveApi()
     } else {
       // Show auth UI, allowing the user to initiate authorization by
       // clicking authorize button.
       authorizeDiv.style.display = 'block';
       // line below added by Tovly
-      $('.mdl-grid').hide()
+      $('.mdl-layout__tab-bar-container').addClass('none')
     }
   }
 
