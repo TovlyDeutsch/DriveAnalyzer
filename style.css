@@ -3,8 +3,12 @@
 }
 
 .mdl-grid {
-  display: inline-block;
+  display: none;
   margin: auto;
+}
+
+.mdl-layout__tab-bar {
+  height: 48px !important;
 }
 
 #file-count {

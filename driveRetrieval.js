@@ -26,7 +26,7 @@ function getFiles(nextPageToken) {
     // else, if there are no more files to retrieve, render displays
     else {
       fileCount(files)
-      listFiles(files)
+      //listFiles(files)
     }
   },
   // catch a display possible errors
