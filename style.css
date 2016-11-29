@@ -1,10 +1,14 @@
 .mdl-layout__header, .mdl-layout__tab-bar {
-    background-color: #11864d !important;
+  background-color: #11864d !important;
 }
 
 .mdl-grid {
   display: none;
   margin: auto;
+}
+
+.mdl-layout__tab-bar {
+  height: 48px !important;
 }
 
 #file-count {
@@ -18,8 +22,12 @@
   text-align: center;
 }
 
-h3 {
+p {
   text-align: center;
+}
+
+#file-count-wrapper {
+  border-right: solid 1px black;
 }
 
 .mdl-button {

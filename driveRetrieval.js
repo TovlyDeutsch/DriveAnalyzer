@@ -1,5 +1,4 @@
 files = []
-
 // makes a request to Google Drive API for files
 function getFiles(nextPageToken) {
   // 1000 is maximum retrieval size
@@ -7,7 +6,7 @@ function getFiles(nextPageToken) {
   // add shared with me = false, currently not working
   parameters = {
     'pageSize': 1000,
-    'fields': "nextPageToken, files(id, name)",
+    'fields': "nextPageToken, files(id, name, createdTime)",
     'q': "mimeType != 'application/vnd.google-apps.folder' and trashed = false"
   }
 
@@ -20,25 +19,20 @@ function getFiles(nextPageToken) {
   // use of promises adapted from https://developers.google.com/api-client-library/javascript/features/promises
   request.then(function(response){
     files = files.concat(response.result.files)
-    // if there is a new nextPageToken, make a new request (recursively)
+    // if there is a nextPageToken, make a new request (recursively)
     if (response.result.nextPageToken) {
       getFiles(response.result.nextPageToken)
     }
-    // else, if there are no more files to retrieve, print files
+    // else, if there are no more files to retrieve, render displays
     else {
-          var fileString = ''
-          for (var i = 0; i < files.length; i++) {
-            fileString += files[i].name
-          }
-          $('.loader').remove()
-          document.getElementById('file-count').innerHTML = files.length
+      fileCount(files)
+      //listFiles(files)
     }
   },
   // catch a display possible errors
   function(response){
     $('.loader').remove()
     document.getElementById('file-count').innerHTML = JSON.parse(response.body).error.message
-    return false
   })
 
 } // end getFiles()
