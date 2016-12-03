@@ -6,7 +6,7 @@ function getFiles(nextPageToken) {
   // add shared with me = false, currently not working
   parameters = {
     'pageSize': 1000,
-    'fields': "nextPageToken, files(id, name, createdTime)",
+    'fields': "nextPageToken, files(id, name, createdTime, fileExtension)",
     'q': "mimeType != 'application/vnd.google-apps.folder' and trashed = false"
   }
 
@@ -26,6 +26,7 @@ function getFiles(nextPageToken) {
     // else, if there are no more files to retrieve, render displays
     else {
       fileCount(files)
+      displayGraph(files)
       //listFiles(files)
     }
   },
