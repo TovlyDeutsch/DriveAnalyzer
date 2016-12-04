@@ -1,24 +1,26 @@
 function fileCount(files) {
 
-  // var fileTypes = [['fileExtension', 'Number of Files'], ['Undefined', 2]
-  // for (var i = 0; i < types.length; i++) {
+	var filemime = ""
+  // var fileTypes = [['fileExtension', 'Number of Files'], ['Undefined', 2]]
+  for (var i = 0; i < files.length; i++) {
+  	filemime += files[i].mimeType
   	// if (types.slice(0, i - 1).contains(fileTypes[i].fileExtension)) {
 
   	// }
 
   	// else {
   	// 	fileTypes.push([fileTypes[i].fileExtension, 1])
-  	//}
+  	// }
 
   $('.loader').remove()
-  document.getElementById('file-count').innerHTML = files.length
+  document.getElementById('file-count').innerHTML = filemime
 }
 
 function displayGraph(files) {
-	var types = []
-	for (var i = 0; i < files.length; i++) {
-		types.push(files[i].fileExtension)
-	}
+	// var types = []
+	// for (var i = 0; i < files.length; i++) {
+	// 	types.push(files[i].fileExtension)
+	// }
 
 	google.charts.load('current', {'packages':['corechart']});
   	google.charts.setOnLoadCallback(drawChart);
