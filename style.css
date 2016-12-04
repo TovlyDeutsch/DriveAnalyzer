@@ -18,6 +18,59 @@
   height: 64px;
 }
 
+.small-avatar {
+  border-radius: 10px;
+  height: 36px;
+  margin-right: 10px;
+
+}
+
+table {
+  margin: auto;
+  width: 100%;
+}
+
+.narrow {
+  max-width: 30px;
+}
+
+.mdl-data-table td:last-of-type, .mdl-data-table th:last-of-type {
+    padding-right: 35px !important;
+}
+
+.selected {
+  background-color: #4998ff;
+}
+
+.selected:hover {
+  background-color: rgba(73, 152, 255, 0.74) !important;
+}
+
+/* part of this css rule is from http://stackoverflow.com/a/7410812*/
+td, th {
+  max-width: 140px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+@media (max-width: 960px){
+  td, th {
+    max-width: 70px;
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 500px){
+  td, th {
+    max-width: 70px;
+    word-wrap: break-word;
+  }
+}
+
+.owner {
+  padding-right: 13px;
+}
+
 #file-count {
   text-align: center;
 }
@@ -40,7 +93,7 @@ p {
 .mdl-button {
   background-color: #4687F4 !important;
 }
-// loading animation below adapted from  http://tympanus.net/codrops/2012/11/14/creative-css-loading-animations/
+/* loading animation below adapted from  http://tympanus.net/codrops/2012/11/14/creative-css-loading-animations/ */
 
 :root {
   --rotationEasing: linear;
