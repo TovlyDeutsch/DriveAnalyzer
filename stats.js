@@ -1,9 +1,4 @@
 function fileCount(files) {
-  var fileString = ''
-  for (var i = 0; i < files.length; i++) {
-    fileString += files[i].name
-    
-  }
 
   // var fileTypes = [['fileExtension', 'Number of Files'], ['Undefined', 2]
   // for (var i = 0; i < types.length; i++) {
@@ -14,7 +9,7 @@ function fileCount(files) {
   	// else {
   	// 	fileTypes.push([fileTypes[i].fileExtension, 1])
   	//}
-  
+
   $('.loader').remove()
   document.getElementById('file-count').innerHTML = files.length
 }
@@ -45,5 +40,5 @@ function displayGraph(files) {
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
     chart.draw(data, options);
-  }  
+  }
 }
