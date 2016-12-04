@@ -7,20 +7,20 @@ function listFiles(files) {
       <th class="mdl-data-table__cell--non-numeric">File Name</th>\
       <th class="narrow">Quota Used</th>\
       <th class="narrow">Date Created</th>\
-      <th class="narrow">Owner</th>\
     </tr>\
   </thead>\
   <tbody>'
 
   // iterate over files, adding each info about each to individual rows
   for (var i = 0; i < files.length; i++) {
-    fileTable += '\
-    <tr>\
-      <td class="mdl-data-table__cell--non-numeric">' + files[i].name + '</td>\
-      <td class="narrow">' + files[i].quotaBytesUsed + '</td>\
-      <td class="narrow">' + files[i].createdTime + '</td>\
-      <td class="narrow"><img class="small-avatar"src="' + files[i].owners[0].photoLink + '"/>' + files[i].owners[0].displayName + '</td>\
-    </tr>'
+    if (files[i].ownedByMe === true) {
+      fileTable += '\
+      <tr>\
+        <td class="mdl-data-table__cell--non-numeric">' + files[i].name + '</td>\
+        <td class="narrow">' + files[i].quotaBytesUsed + '</td>\
+        <td class="narrow">' + files[i].createdTime + '</td>\
+      </tr>'
+      }
   }
 
 

@@ -6,8 +6,9 @@ function getFiles(nextPageToken) {
   // add shared with me = false, currently not working
   parameters = {
     'pageSize': 1000,
-    'fields': "nextPageToken, files(id, name, createdTime, fileExtension, quotaBytesUsed, owners)",
-    'q': "mimeType != 'application/vnd.google-apps.folder' and trashed = false"
+    'fields': "nextPageToken, files(id, name, createdTime, fileExtension, quotaBytesUsed, owners, ownedByMe)",
+    'q': "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+    'orderBy': 'createdTime'
   }
 
   // if not first request, set the pageToken to the next page
@@ -25,9 +26,10 @@ function getFiles(nextPageToken) {
     }
     // else, if there are no more files to retrieve, render displays
     else {
-      fileCount(files)
+      fileLists = fileCount(files)
       displayGraph(files)
-      listFiles(files)
+      // only list files owned by me
+      listFiles(fileLists[0])
     }
   },
   // catch a display possible errors
