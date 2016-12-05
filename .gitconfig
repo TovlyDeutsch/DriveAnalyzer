@@ -1,0 +1,3 @@
+// from https://gist.github.com/cobyism/4730490
+[alias]
+    gp = git subtree push --prefix dist origin gh-pages
