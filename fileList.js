@@ -18,7 +18,7 @@ function listFiles(files) {
       <tr>\
         <td class="mdl-data-table__cell--non-numeric">' + files[i].name + '</td>\
         <td class="narrow">' + files[i].quotaBytesUsed + '</td>\
-        <td class="narrow">' + files[i].createdTime + '</td>\
+        <td class="narrow">' + new Date(Date.parse(files[i].createdTime)).toDateString() + '</td>\
       </tr>'
       }
   }
