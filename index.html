@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-  <script src="authorizationLibrary.js"></script>
+  <script src="dist/authorizationLibrary.js"></script>
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
         <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Statistics</a>
         <a href="#fixed-tab-2" class="mdl-layout__tab">List View</a>
-        <a href="#fixed-tab-3" class="mdl-layout__tab">Files By Owner</a>
+        <!-- <a href="#fixed-tab-3" class="mdl-layout__tab">Files By Owner</a> -->
     </div>
   </header>
   <!--Start from Google Drive API quickstart-->
@@ -62,6 +62,11 @@
           <div class="mdl-cell mdl-cell--6-col">
             <div id='content'>
               <p class="mdl-typography--display-1">Percentage by File Type</p>
+                <ul id="graph-loader" class="loader">
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
               <div id='piechart' class="mdl-typography--headline" style="width: 900px; height: 500px;"></div>
             </div>
           </div> <!-- end right column -->
@@ -70,16 +75,28 @@
     </section>
     <section class="mdl-layout__tab-panel" id="fixed-tab-2">
       <div id="content2" class="page-content">
-        <ul class="loader">
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+        <div id="grouping-options">
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+            <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+            <span class="mdl-radio__label">File Type</span>
+          </label>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+            <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+            <span class="mdl-radio__label">Owner</span>
+          </label>
+        </div>
+        <div id="table-slot">
+          <ul class="loader">
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
       </div>
     </section>
-    <section class="mdl-layout__tab-panel" id="fixed-tab-3">
-      <div class="page-content">fewag<!-- Your content goes here --></div>
-    </section>
+    <!-- <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+      <div class="page-content"></div>
+    </section> -->
   </main>
 </div>
 
@@ -90,9 +107,9 @@
   </script>
 </body>
 
-<script src="driveRetrieval.js"></script>
-<script src="stats.js"></script>
-<script src="fileList.js"></script>
+<script src="dist/driveRetrieval.js"></script>
+<script src="dist/stats.js"></script>
+<script src="dist/fileList.js"></script>
 <!--Start from Google Drive API quickstart-->
 <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 </html>
