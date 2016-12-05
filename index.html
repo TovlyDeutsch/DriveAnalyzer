@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-  <script src="dist/authorizationLibrary.js"></script>
+  <script src="authorizationLibrary.js"></script>
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
@@ -100,16 +100,17 @@
   </main>
 </div>
 
-
+<!--removeIf(production)-->
 <script id="__bs_script__">//<![CDATA[
   document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.17.5'><\/script>".replace("HOST", location.hostname));
   //]]>
   </script>
+  <!--endRemoveIf(production)-->
 </body>
 
-<script src="dist/driveRetrieval.js"></script>
-<script src="dist/stats.js"></script>
-<script src="dist/fileList.js"></script>
+<script src="driveRetrieval.js"></script>
+<script src="stats.js"></script>
+<script src="fileList.js"></script>
 <!--Start from Google Drive API quickstart-->
 <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 </html>
