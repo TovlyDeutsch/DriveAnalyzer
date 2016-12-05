@@ -10,7 +10,7 @@
   height: 48px !important;
 }
 
-.none {
+.none, .trash {
   display: none !important;
 }
 
@@ -107,6 +107,15 @@ p {
 
 .mdl-button {
   background-color: #4687F4 !important;
+}
+
+#delete-loader {
+  display: none;
+  float: left;
+  height: 0.5em;
+  font-size: 3em;
+  padding: 0;
+  margin: 0.3em 0em 0 1em;
 }
 /* loading animation below adapted from  http://tympanus.net/codrops/2012/11/14/creative-css-loading-animations/ */
 

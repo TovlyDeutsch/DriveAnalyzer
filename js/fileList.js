@@ -45,15 +45,24 @@ function bindEventHandlers() {
 }
 
 var trashFiles = function trashFiles(previouslySelected) {
+  $('#delete-loader').css('display', 'inline-block')
   // if previouslySelected exists, this is an undo command
   if (previouslySelected === undefined) {
     var trash = true
     var selected = $('.selected')
-    localStorage['selected'] = JSON.stringify(selected)
+    // line below adapted from http://stackoverflow.com/a/25416276/4159228
+    var stringArray = selected.map(function (index, element) {return $(element).prop('outerHTML')}).get().join()
+    console.log(stringArray)
+    sessionStorage.setItem('selected', stringArray)
+    var message = 'Error: '
+    var actionText = 'Try Again'
   }
   else {
     var trash = false
     var selected = previouslySelected
+    console.log(selected)
+    var message = 'Done'
+    var actionText = ''
   }
   var batchRequest = gapi.client.newBatch()
   // iterate over selected files
@@ -69,38 +78,51 @@ var trashFiles = function trashFiles(previouslySelected) {
   // base info for popup alert
   var snackbarContainer = document.getElementById('snackbar')
   var data = {
-    message: 'Error: ',
+    message: message,
     timeout: 2000,
     actionHandler: trashFiles,
-    actionText: 'Try Again'
+    actionText: actionText
   }
 
   var error = false
 
   // execute batch request
   batchRequest.then(function(response) {
-      console.log(response)
-      var results = response.result
-      for (var k = 0; k < results.length; k++) {
-        if(results[k].status !== '200') {
-          data.message += results[k].result.error.message + ', '
-          error = true
-        }
-      }
-      if (error === false) {
-        data.message = 'Success'
-        data.actionText = 'Undo'
-        data.actionHandler = Undo
-      }
-      snackbarContainer.MaterialSnackbar.showSnackbar(data)
-      $('.loader').remove()
-    }, // end on success function
-    function(response){
-      console.log(JSON.parse(response.body).error.message)
-    })
 
-  } // end trashfiles
+    var results = response.result
+    console.log(results)
+    for (var prop in results) {
+      console.log(results[prop].status)
+      if(results[prop].status !== 200) {
+        data.message += results[prop].result.error.message + ', '
+        error = true
+      }
+    }
+    if (error === false) {
+      data.message = 'Success'
+      data.actionText = 'Undo'
+      data.actionHandler = Undo
+    }
+    snackbarContainer.MaterialSnackbar.showSnackbar(data)
+    // remove selected rows if delete command
+    if (trash === true) {
+      $('.selected').addClass('trash')
+    }
+    // display trashed rows if undo command
+    else {
+      $('.trash').removeClass('trash')
+    }
+    $('.selected').removeClass('selected')
+    $('.loader').remove()
+  }, // end on success function
+  function(response){
+    console.log(JSON.parse(response.body).error.message)
+  })
 
-  var Undo = function Undo() {
-    trashfiles(JSON.parse(localStorage['selected']))
-  }
+} // end trashfiles
+
+var Undo = function Undo() {
+  var selectedString = sessionStorage.getItem('selected')
+
+  trashFiles($('<div/>').html(selectedString).contents())
+}
