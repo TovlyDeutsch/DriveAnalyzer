@@ -2,7 +2,7 @@
 // modified or added lines are marked
 
 var CLIENT_ID = '363872304328-t3h8sa4icpbaj9lkrpraf5ujoidtsc6h.apps.googleusercontent.com';
-var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+var SCOPES = ['https://www.googleapis.com/auth/drive']; // scope changed by Tovly
 
 /**
 * Check if current user has authorized this application.

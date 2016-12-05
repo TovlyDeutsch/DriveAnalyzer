@@ -46,6 +46,21 @@ table {
   background-color: rgba(73, 152, 255, 0.74) !important;
 }
 
+#delete-button {
+  float: left;
+  background-color: #dd4b39 !important;
+  margin-left: 1.3em;
+}
+
+#grouping-options {
+  margin: 20px auto;
+  width: 26%;
+}
+
+.mdl-radio {
+  margin: 0 0.5em !important;
+}
+
 /* part of this css rule is from http://stackoverflow.com/a/7410812*/
 td, th {
   max-width: 140px;

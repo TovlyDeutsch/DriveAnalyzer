@@ -6,7 +6,8 @@ function getFiles(nextPageToken) {
   // add shared with me = false, currently not working
   parameters = {
     'pageSize': 1000,
-    'fields': "nextPageToken, files(id, name, createdTime, fileExtension, quotaBytesUsed, owners, ownedByMe)",
+    'fields': "nextPageToken, files(\
+    id, name, createdTime, fileExtension, quotaBytesUsed, owners, ownedByMe, webViewLink)",
     'q': "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
     'orderBy': 'createdTime'
   }
