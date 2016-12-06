@@ -44,19 +44,19 @@ function getFilesNotOwned(files) {
 }
 
 function displayGraph(files) {
-  var types = [['Type', 'Number']]
-  var object = seperateBy(files, 'type')
-  for (var type = 0; type < object.length; type++) {
-    types.push([object['type', object['type'].files.length]])
-  }
+  var test = []
+  var file_types = seperateBy(files, 'type')
+  //for (var type = 0; type < file_types.length; type++) {
+  test.push([object[1]['type'], object[1]['type'].files.length])
+  //}
 
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
 
     var data = google.visualization.arrayToDataTable(
-      types
-
+      ['HI', 'BYE'],
+      test
       );
 
     var options = {
