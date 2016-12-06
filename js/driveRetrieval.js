@@ -6,8 +6,10 @@ function getFiles(nextPageToken) {
   // add shared with me = false, currently not working
   parameters = {
     'pageSize': 1000,
-    'fields': "nextPageToken, files(id, name, createdTime, fileExtension, quotaBytesUsed)",
-    'q': "mimeType != 'application/vnd.google-apps.folder' and trashed = false"
+    'fields': "nextPageToken, files(\
+    id, name, createdTime, fileExtension, quotaBytesUsed, owners, ownedByMe, webViewLink, mimeType)",
+    'q': "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+    'orderBy': 'createdTime'
   }
 
   // if not first request, set the pageToken to the next page
@@ -17,7 +19,7 @@ function getFiles(nextPageToken) {
   var request = gapi.client.drive.files.list(parameters)
 
   // use of promises adapted from https://developers.google.com/api-client-library/javascript/features/promises
-  request.then(function(response){
+  request.then(function(response) {
     files = files.concat(response.result.files)
     // if there is a nextPageToken, make a new request (recursively)
     if (response.result.nextPageToken) {
@@ -25,14 +27,20 @@ function getFiles(nextPageToken) {
     }
     // else, if there are no more files to retrieve, render displays
     else {
-      fileCount(files)
+      sessionStorage.setItem('files', files)
+      fileLists = fileCount(files)
       displayGraph(files)
-      listFiles(files)
+      // only list files owned by me
+      var fileTable = listFiles(fileLists[0])
+      $('.first-loader').remove()
+      sessionStorage.clear()
+      sessionStorage.setItem('files', JSON.stringify(files))
+      document.getElementById('table-slot').innerHTML = fileTable
+      bindEventHandlers()
     }
   },
   // catch a display possible errors
   function(response){
-    $('.loader').remove()
     document.getElementById('file-count').innerHTML = JSON.parse(response.body).error.message
   })
 

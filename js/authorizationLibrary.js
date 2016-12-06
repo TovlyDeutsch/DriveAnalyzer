@@ -1,7 +1,8 @@
-// This code and comments is taken directly from Google Drive API documentation quickstart //(https://developers.google.com/drive/v3/web/quickstart/js) as a base mini-library
+// This code and comments is taken directly from Google Drive API documentation quickstart (https://developers.google.com/drive/v3/web/quickstart/js) as a base mini-library
+// modified or added lines are marked
 
 var CLIENT_ID = '363872304328-t3h8sa4icpbaj9lkrpraf5ujoidtsc6h.apps.googleusercontent.com';
-var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+var SCOPES = ['https://www.googleapis.com/auth/drive']; // scope changed by Tovly
 
 /**
 * Check if current user has authorized this application.
@@ -25,7 +26,7 @@ function checkAuth() {
     if (authResult && !authResult.error) {
       // Hide auth UI, then load client library.
       authorizeDiv.style.display = 'none';
-      $('.none').removeClass('none')
+      $('.none').removeClass('none') // line added by Tovly
       loadDriveApi()
     } else {
       // Show auth UI, allowing the user to initiate authorization by

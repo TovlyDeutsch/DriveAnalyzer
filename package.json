@@ -1,0 +1,28 @@
+{
+  "name": "cs50driveanalyzer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "authorizationLibrary.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TovlyDeutsch/cs50DrivePowerToolsNew.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TovlyDeutsch/cs50DrivePowerToolsNew/issues"
+  },
+  "homepage": "https://github.com/TovlyDeutsch/cs50DrivePowerToolsNew#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.1",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-remove-code": "^1.0.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7"
+  }
+}
