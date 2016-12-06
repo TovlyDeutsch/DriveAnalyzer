@@ -44,23 +44,20 @@ function getFilesNotOwned(files) {
 }
 
 function displayGraph(files) {
-  var types = []
-  for (var i = 0; i < files.length; i++) {
-    types.push(files[i].fileExtension)
+  var types = [['Type', 'Number']]
+  var object = seperateBy(files, 'type')
+  for (var type = 0; type < object.length; type++) {
+    types.push([object['type', object['type'].files.length]])
   }
 
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
 
-    var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-      ['Work',     11],
-      ['Eat',      2],
-      ['Commute',  2],
-      ['Watch TV', 2],
-      ['Sleep',    7]
-    ]);
+    var data = google.visualization.arrayToDataTable(
+      types
+
+      );
 
     var options = {
       title: 'Distribution of file types'
