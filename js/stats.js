@@ -44,20 +44,24 @@ function getFilesNotOwned(files) {
 }
 
 function displayGraph(files) {
-  var test = []
-  var file_types = seperateBy(files, 'type')
-  //for (var type = 0; type < file_types.length; type++) {
-  test.push([object[1]['type'], object[1]['type'].files.length])
-  //}
+  // var test = []
+  // var file_types = seperateBy(files, 'type')
+  // for (var type = 0; type < file_types.length; type++) {
+  // test.push([file_types[1]['type'], file_types[1]['type'].files.length])
+  // }
 
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
 
-    var data = google.visualization.arrayToDataTable(
-      ['HI', 'BYE'],
-      test
-      );
+    var data = google.visualization.arrayToDataTable([
+       ['Task', 'Hours per Day'],
+       ['Work',     11],
+       ['Eat',      2],
+       ['Commute',  2],
+       ['Watch TV', 2],
+       ['Sleep',    10]
+     ]);
 
     var options = {
       title: 'Distribution of file types'

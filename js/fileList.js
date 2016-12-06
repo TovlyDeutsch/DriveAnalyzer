@@ -223,11 +223,12 @@ var trashFiles = function trashFiles(previouslySelected) {
       data.actionText = trash === true ? 'Undo' : ''
       data.actionHandler = trash === true ? Undo : ''
       // remove selected rows if delete command
-      if (trash === true) {
-        $('.selected').addClass('trash')
-      }
+
     }
     snackbarContainer.MaterialSnackbar.showSnackbar(data)
+    if (trash === true) {
+     $('.selected').addClass('trash')
+    }
     // display trashed rows if undo command
     else {
       $('.trash').removeClass('trash')
