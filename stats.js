@@ -1,16 +1,16 @@
 function fileCount(files) {
 
-	var filemime = ""
+	var filemime = []
   // var fileTypes = [['fileExtension', 'Number of Files'], ['Undefined', 2]]
   for (var i = 0; i < files.length; i++) {
-  	filemime += files[i].mimeType
+  	filemime.push(files[i].mimeType)
   	// if (types.slice(0, i - 1).contains(fileTypes[i].fileExtension)) {
 
   	// }
 
   	// else {
   	// 	fileTypes.push([fileTypes[i].fileExtension, 1])
-  	// }
+  	}
 
   $('.loader').remove()
   document.getElementById('file-count').innerHTML = filemime
