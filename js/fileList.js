@@ -1,3 +1,5 @@
+//to do fix try agian button
+// don't remove row on failure
 // This function creates the html table rows for tab 2
 function listFiles(files, owner) {
   var fileTable = ''
@@ -33,6 +35,13 @@ function bindEventHandlers() {
     // else highlight file row
     else {
       $( this ).toggleClass('selected')
+      // only enable delete button if there is at least one row selected
+      if ($('.selected').length > 0 ){
+        $('#delete-button').prop('disabled', false)
+      }
+      else {
+        $('#delete-button').prop('disabled', true)
+      }
     }
   })
 
@@ -54,7 +63,6 @@ function bindEventHandlers() {
     // none grouping selected
     if (document.getElementById('option-1').checked) {
       document.getElementById('table-slot').innerHTML = listFiles(getFilesNotOwned(files)[0])
-      $('button').prop('disabled', false)
       $('input').prop('disabled', false)
       $('label').removeClass('is-disabled')
       $('#delete-loader').css('display', 'none')
@@ -81,22 +89,24 @@ function bindEventHandlers() {
       }
       tableString += '\
       <tr class="group-header-row mdl-shadow--2dp">\
-        <td class="group-header mdl-data-table__cell--non-numeric">' + img + group + ' ▼</td><td></td><td></td>\
+        <td class="group-header mdl-data-table__cell--non-numeric">' + img + group + ' ▼</td>\
+        <td class="group-header mdl-data-table__cell--non-numeric">\
+        </td>\
+        <td class="group-header mdl-data-table__cell--non-numeric">\
+        </td>\
       </tr>'
       // add group files
       tableString += listFiles(seperatedFiles[group].files, owner)
     }
     // render list
     document.getElementById('table-slot').innerHTML = tableString
-    // enable buttons
-    $('button').prop('disabled', false)
+    // enable radio buttons
     $('input').prop('disabled', false)
     $('label').removeClass('is-disabled')
     $('#delete-loader').css('display', 'none')
   });
 
-  // enable buttons
-  $('button').prop('disabled', false)
+  // enable radio buttons
   $('input').prop('disabled', false)
   $('label').removeClass('is-disabled')
 } // end bind event handlers

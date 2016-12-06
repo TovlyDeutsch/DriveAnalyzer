@@ -47,9 +47,6 @@ table {
   background-color: rgba(73, 152, 255, 0.74) !important;
 }
 
-.group-header-row:hover {
-  /*background-color: #fff !important;*/
-}
 
 #delete-button {
   float: left;
