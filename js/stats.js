@@ -11,17 +11,9 @@ function fileCount(files) {
   // 	fileTypes.push([fileTypes[i].fileExtension, 1])
   //}
 
-  var filesNotOwned = []
-
-  // seperate files that are owned from those that are shared into 2 seperate arrays
-  var filesOwned = files.filter(function(element){
-    if (element.ownedByMe === true) {
-      return true
-    }
-    else {
-      filesNotOwned.push(element)
-    }
-  })
+  var seperatedFiles = getFilesNotOwned(files)
+  var filesOwned = seperatedFiles[0]
+  var filesNotOwned = seperatedFiles[1]
 
   // render file counts
   document.getElementById('file-counts').innerHTML = '<p id="file-count" class="mdl-typography--headline">\
@@ -33,6 +25,21 @@ function fileCount(files) {
   Total: ' + files.length +
   '</p>'
 
+  return [filesOwned, filesNotOwned]
+}
+
+function getFilesNotOwned(files) {
+  var filesNotOwned = []
+
+  // seperate files that are owned from those that are shared into 2 seperate arrays
+  var filesOwned = files.filter(function(element){
+    if (element.ownedByMe === true) {
+      return true
+    }
+    else {
+      filesNotOwned.push(element)
+    }
+  })
   return [filesOwned, filesNotOwned]
 }
 

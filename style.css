@@ -10,9 +10,10 @@
   height: 48px !important;
 }
 
-.none, .trash {
+.hidden, .none, .trash {
   display: none !important;
 }
+
 
 .header {
   height: 64px;
@@ -54,7 +55,13 @@ table {
 
 #grouping-options {
   margin: 20px auto;
-  width: 26%;
+  width: 370px;
+}
+
+.group-header {
+  font-size: 1.5em;
+  font-weight: bold;
+  border: 0 !important;
 }
 
 .mdl-radio {

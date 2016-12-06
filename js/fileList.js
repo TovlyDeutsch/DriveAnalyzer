@@ -1,19 +1,9 @@
-// This function list the files in tab 2 for sorting and grouping
-function listFiles(files) {
-  console.log(files[0])
-  var fileTable = '<table id="file-list" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">\
-  <thead>\
-  <tr>\
-  <th class="mdl-data-table__cell--non-numeric">File Name</th>\
-  <th class="narrow">Quota Used</th>\
-  <th class="narrow">Date Created</th>\
-  </tr>\
-  </thead>\
-  <tbody>'
-
+// This function creates the html table rows for tab 2
+function listFiles(files, owner) {
+  var fileTable = ''
   // iterate over files, adding each info about each to individual rows
   for (var i = 0; i < files.length; i++) {
-    if (files[i].ownedByMe === true) {
+    if (files[i].ownedByMe === true || owner === true) {
       fileTable += '\
       <tr data-link=' + files[i].webViewLink + ' data-id=' + files[i].id + '>\
       <td class="mdl-data-table__cell--non-numeric">' + files[i].name + '</td>\
@@ -23,49 +13,164 @@ function listFiles(files) {
     }
   }
 
-
-  fileTable += '</tbody></table>'
-  document.getElementById('table-slot').innerHTML = fileTable
-  bindEventHandlers()
+  return fileTable
 }
 
 function bindEventHandlers() {
+  // highlight and select on click
   $( "#file-list tbody" ).on( "click", "tr", function() {
-    $( this ).toggleClass('selected');
-  });
+    // if a group header is clicked toggle visibility for that group
+    if ($(this).hasClass('group-header-row')) {
+      $(this).nextUntil('.group-header-row').toggleClass('hidden')
+      var $cell = $(this).children(':first')
+      var words = $cell.text().split(' ')
+      // toggle carrot direction
+      if (words.pop() === '▼') {words.push('▶')}
+      else {words.push('▼')}
+      // render group header text
+      $cell.text(words.join(' '))
+    }
+    // else highlight file row
+    else {
+      $( this ).toggleClass('selected')
+    }
+  })
 
+  // open file on double click
   $( "#file-list tbody" ).on( "dblclick", "tr", function() {
-    console.log('test')
-    window.open($( this ).attr('data-link'), '_blank');
-  });
+    window.open($( this ).attr('data-link'), '_blank')
+  })
 
   $('#delete-button').on('click', function() {
     trashFiles()
   })
+
+  // group files on radio button change
+  $('input[type=radio][name=options]').change(function() {
+    $('button').prop('disabled', true)
+    $('input').prop('disabled', true)
+    $('#delete-loader').css('display', 'inline-block')
+    var files = JSON.parse(sessionStorage.getItem('files'))
+    // none grouping selected
+    if (document.getElementById('option-1').checked) {
+      document.getElementById('table-slot').innerHTML = listFiles(getFilesNotOwned(files)[0])
+      $('button').prop('disabled', false)
+      $('input').prop('disabled', false)
+      $('label').removeClass('is-disabled')
+      return
+    }
+    // type grouping selected
+    else if (document.getElementById('option-2').checked) {
+      var seperatedFiles = seperateBy(files, 'type')
+    }
+    // owner grouping selected
+    else if (document.getElementById('option-3').checked) {
+      var seperatedFiles = seperateBy(files, 'owner')
+    }
+
+    var tableString = ''
+    // iterate over groups
+    for (var group in seperatedFiles) {
+      // add group header
+      tableString += '\
+      <tr class="group-header-row mdl-shadow--2dp">\
+      <td class="group-header mdl-data-table__cell--non-numeric">' + group + ' ▼</td>\
+      </tr>'
+      // add group files
+      tableString += listFiles(seperatedFiles[group], true)
+    }
+    // render list
+    document.getElementById('table-slot').innerHTML = tableString
+    // enable buttons
+    $('button').prop('disabled', false)
+    $('input').prop('disabled', false)
+    $('label').removeClass('is-disabled')
+    $('#delete-loader').css('display', 'none')
+  });
+
+  // enable buttons
+  $('button').prop('disabled', false)
+  $('input').prop('disabled', false)
+  $('label').removeClass('is-disabled')
+} // end bind event handlers
+
+// function below adapted from http://stackoverflow.com/a/14696535/4159228
+// this function seperates an array of objects by a property
+function seperateBy(files, property) {
+  var seperatedFiles = files.reduce(function(fileArrays, file) {
+    var prop = property === 'type' ? getType(file) : file.owners[0].emailAddress
+    // exclude files not owned by me except when grouping by owner
+    if (file.ownedByMe === true || property === 'owner') {
+      if (!fileArrays[prop]) {fileArrays[prop] = []}
+      fileArrays[prop].push(file)
+    }
+    return fileArrays
+  }, {})
+  return seperatedFiles
+}
+
+function getType(file) {
+  if (typeof file.fileExtension !== 'undefined') {
+    return file.fileExtension
+  }
+  else {
+    console.log(file.mimeType)
+    // handle Google's file types
+    switch (file.mimeType) {
+      case 'application/vnd.google-apps.audio':
+        return 'Audio'
+      case 'application/vnd.google-apps.document':
+        return	'Google Docs'
+      case 'application/vnd.google-apps.drawing':
+        return	'Google Drawing'
+      case 'application/vnd.google-apps.file':
+        return 'Google Drive file'
+      case 'application/vnd.google-apps.folder':
+        return	'Google Drive folder'
+      case 'application/vnd.google-apps.form':
+        return	'Google Forms'
+      case 'application/vnd.google-apps.fusiontable':
+        return	'Google Fusion Tables'
+      case 'application/vnd.google-apps.map':
+        return	'Google My Maps'
+      case 'application/vnd.google-apps.photo':
+        return 'Photos'
+      case 'application/vnd.google-apps.presentation':
+        return	'Google Slides'
+      case 'application/vnd.google-apps.script':
+        return	'Google Apps Scripts'
+      case 'application/vnd.google-apps.sites':
+        return	'Google Sites'
+      case 'application/vnd.google-apps.spreadsheet':
+        return	'Google Sheets'
+      case 'application/vnd.google-apps.unknown':
+        return 'Unknown'
+      case 'application/vnd.google-apps.video':
+        return 'Videos'
+    }
+    console.log('translated')
+  }
 }
 
 var trashFiles = function trashFiles(previouslySelected) {
   $('#delete-loader').css('display', 'inline-block')
-  // if previouslySelected exists, this is an undo command
+  // if previouslySelected is undefined, then this is a standard trash command
   if (previouslySelected === undefined) {
     var trash = true
     var selected = $('.selected')
     // line below adapted from http://stackoverflow.com/a/25416276/4159228
     var stringArray = selected.map(function (index, element) {return $(element).prop('outerHTML')}).get().join()
-    console.log(stringArray)
+    // store selected rows as a string in sessionStorage
     sessionStorage.setItem('selected', stringArray)
-    var message = 'Error: '
-    var actionText = 'Try Again'
   }
+  // else, if previouslySelected exists, this is an undo command
   else {
     var trash = false
     var selected = previouslySelected
-    console.log(selected)
-    var message = 'Done'
     var actionText = ''
   }
   var batchRequest = gapi.client.newBatch()
-  // iterate over selected files
+  // iterate over selected files, adding each file deletion to the batch request
   for (var j = 0; j < selected.length; j++) {
     batchRequest.add(gapi.client.drive.files.update(
       {
@@ -78,30 +183,28 @@ var trashFiles = function trashFiles(previouslySelected) {
   // base info for popup alert
   var snackbarContainer = document.getElementById('snackbar')
   var data = {
-    message: message,
+    message: 'Error: ',
     timeout: 2000,
     actionHandler: trashFiles,
-    actionText: actionText
+    actionText: 'Try Again'
   }
 
   var error = false
 
   // execute batch request
   batchRequest.then(function(response) {
-
     var results = response.result
-    console.log(results)
+    // iterate over results checking for errors
     for (var prop in results) {
-      console.log(results[prop].status)
       if(results[prop].status !== 200) {
         data.message += results[prop].result.error.message + ', '
         error = true
       }
-    }
+    } // end for loop
     if (error === false) {
-      data.message = 'Success'
-      data.actionText = 'Undo'
-      data.actionHandler = Undo
+      data.message = trash === true ? 'Success' : 'Done'
+      data.actionText = trash === true ? 'Undo' : ''
+      data.actionHandler = trash === true ? Undo : ''
     }
     snackbarContainer.MaterialSnackbar.showSnackbar(data)
     // remove selected rows if delete command
@@ -113,9 +216,11 @@ var trashFiles = function trashFiles(previouslySelected) {
       $('.trash').removeClass('trash')
     }
     $('.selected').removeClass('selected')
-    $('.loader').remove()
+    $('#delete-loader').css('display', 'none')
   }, // end on success function
   function(response){
+    data.message += results[prop].result.error.message + ', '
+    error = true
     console.log(JSON.parse(response.body).error.message)
   })
 
