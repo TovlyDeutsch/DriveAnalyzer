@@ -201,9 +201,9 @@ var trashFiles = function trashFiles(previouslySelected) {
   var snackbarContainer = document.getElementById('snackbar')
   var data = {
     message: 'Error: ',
-    timeout: 2000,
+    timeout: 4000,
     actionHandler: trashFiles,
-    actionText: 'Try Again'
+    actionText: ''
   }
 
   var error = false
@@ -222,12 +222,12 @@ var trashFiles = function trashFiles(previouslySelected) {
       data.message = trash === true ? 'Success' : 'Done'
       data.actionText = trash === true ? 'Undo' : ''
       data.actionHandler = trash === true ? Undo : ''
+      // remove selected rows if delete command
+      if (trash === true) {
+        $('.selected').addClass('trash')
+      }
     }
     snackbarContainer.MaterialSnackbar.showSnackbar(data)
-    // remove selected rows if delete command
-    if (trash === true) {
-      $('.selected').addClass('trash')
-    }
     // display trashed rows if undo command
     else {
       $('.trash').removeClass('trash')
