@@ -23,12 +23,12 @@ function bindEventHandlers() {
     if ($(this).hasClass('group-header-row')) {
       $(this).nextUntil('.group-header-row').toggleClass('hidden')
       var $cell = $(this).children(':first')
-      var words = $cell.text().split(' ')
+      var words = $cell.html().split(' ')
       // toggle carrot direction
       if (words.pop() === '▼') {words.push('▶')}
       else {words.push('▼')}
       // render group header text
-      $cell.text(words.join(' '))
+      $cell.html(words.join(' '))
     }
     // else highlight file row
     else {
@@ -57,27 +57,34 @@ function bindEventHandlers() {
       $('button').prop('disabled', false)
       $('input').prop('disabled', false)
       $('label').removeClass('is-disabled')
+      $('#delete-loader').css('display', 'none')
       return
     }
     // type grouping selected
     else if (document.getElementById('option-2').checked) {
       var seperatedFiles = seperateBy(files, 'type')
+      var owner = false
     }
     // owner grouping selected
     else if (document.getElementById('option-3').checked) {
       var seperatedFiles = seperateBy(files, 'owner')
+      var owner = true
     }
 
     var tableString = ''
     // iterate over groups
     for (var group in seperatedFiles) {
+      var img = ''
       // add group header
+      if (owner === true) {
+        img = '<img src="' + seperatedFiles[group].ownerPhoto + '"/> '
+      }
       tableString += '\
       <tr class="group-header-row mdl-shadow--2dp">\
-      <td class="group-header mdl-data-table__cell--non-numeric">' + group + ' ▼</td>\
+        <td class="group-header mdl-data-table__cell--non-numeric">' + img + group + ' ▼</td><td></td><td></td>\
       </tr>'
       // add group files
-      tableString += listFiles(seperatedFiles[group], true)
+      tableString += listFiles(seperatedFiles[group].files, owner)
     }
     // render list
     document.getElementById('table-slot').innerHTML = tableString
@@ -97,14 +104,15 @@ function bindEventHandlers() {
 // function below adapted from http://stackoverflow.com/a/14696535/4159228
 // this function seperates an array of objects by a property
 function seperateBy(files, property) {
-  var seperatedFiles = files.reduce(function(fileArrays, file) {
+  var seperatedFiles = files.reduce(function(fileArray, file) {
     var prop = property === 'type' ? getType(file) : file.owners[0].emailAddress
     // exclude files not owned by me except when grouping by owner
     if (file.ownedByMe === true || property === 'owner') {
-      if (!fileArrays[prop]) {fileArrays[prop] = []}
-      fileArrays[prop].push(file)
+      var photoLink = typeof file.owners[0].photoLink === 'undefined' ? '' : file.owners[0].photoLink
+      if (!fileArray[prop]) {fileArray[prop] = {files: [], ownerPhoto: photoLink}}
+      fileArray[prop].files.push(file)
     }
-    return fileArrays
+    return fileArray
   }, {})
   return seperatedFiles
 }
@@ -148,7 +156,6 @@ function getType(file) {
       case 'application/vnd.google-apps.video':
         return 'Videos'
     }
-    console.log('translated')
   }
 }
 
