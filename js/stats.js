@@ -46,16 +46,14 @@ function getFilesNotOwned(files) {
 
 function displayGraph(files) {
 
-  var numberArray = [["Type", "Number"]]
-  var quotaArray = [["Type", "Quota Used"]]
+  var numberArray = [['Type', 'Number']]
+  var quotaArray = [['Type', 'Quota Used']]
 
-  increment = 1
-  
+  var increment = 1
   var seperatedArray = seperateBy(files, 'type')
   for (var type in seperatedArray) {
     numberArray.push([type, seperatedArray[type].files.length])
     quotaArray.push([type, 0])
-    console.log(quotaArray)
     
     for (var i in seperatedArray[type].files) {
       if (seperatedArray[type].files[i].quotaBytesUsed != 0) {
@@ -64,19 +62,21 @@ function displayGraph(files) {
     }
     increment += 1
   }
-  
-  current = quotaArray
-  
 
+  var current = numberArray
 
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
+
+  var button = document.createElement("button");
+  button.id = "piechart-button";
+  button.innerHTML = "hgfghfghfghjfghfghjfghfghfghfghf";
+
   function drawChart() {
 
     var data = google.visualization.arrayToDataTable(
        current
       );
-
     var options = {
       title: 'Distribution of file types'
     };
@@ -86,4 +86,6 @@ function displayGraph(files) {
     chart.draw(data, options);
     $('#graph-loader').remove()
   }
+
+
 }
