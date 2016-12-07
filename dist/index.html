@@ -10,10 +10,7 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script src="concat.min.js"></script>
-
   <script defer src="https://www.gstatic.com/charts/loader.js"></script>
   <script defer src="https://apis.google.com/js/client.js?onload=checkAuth"></script>  <!--From Google Drive API quickstart-->
 </head>
@@ -63,13 +60,13 @@
           <div class="mdl-cell mdl-cell--6-col">
             <div id='content'>
               <p class="mdl-typography--display-1">Percentage by File Type</p>
-              <div id="piechart" class="mdl-typography--headline" style="width: 900px; height: 300px;"></div>
-              <button id="piechart-button" class="btn waves-effect waves-light" style="display: block; margin: 0 auto;">Toggle</button>
-                <ul id="graph-loader" class="first-loader loader">
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                </ul>
+              <ul id="graph-loader" class="first-loader loader">
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+              <div id="piechart" class="mdl-typography--headline" style="width: 900px; height: 500px;"></div>
+              <button id="piechart-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display: block; margin: 0 auto;">Toggle</button>
              </div>
           </div> <!-- end right column -->
         </div> <!-- end grid -->
@@ -129,7 +126,6 @@
   <div class="mdl-snackbar__text"></div>
   <button class="mdl-snackbar__action" type="button"></button>
 </div>
-
 
 
 </body>

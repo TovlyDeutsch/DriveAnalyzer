@@ -231,7 +231,7 @@ var trashFiles = function trashFiles(previouslySelected) {
     snackbarContainer.MaterialSnackbar.showSnackbar(data)
     if (trash === true && error === false) {
      $('.selected').addClass('trash')
-     setTimeout(function(){$('.trash').remove()}, 4000)
+     //setTimeout(function(){$('.trash').remove()}, 4000)
     }
     // display trashed rows if undo command
     else {
@@ -249,11 +249,12 @@ var trashFiles = function trashFiles(previouslySelected) {
 } // end trashfiles
 
 var Undo = function Undo() {
+  console.log('undone')
   var selectedString = sessionStorage.getItem('selected')
 
   trashFiles($('<div/>').html(selectedString).contents())
 }
 
 function switchData(){
- 
+
 }
