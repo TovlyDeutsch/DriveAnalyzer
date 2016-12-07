@@ -1,0 +1,8 @@
+authorizationLibrary.js is from the Google Drive API documentation quickstart (https://developers.google.com/drive/v3/web/quickstart/js) as a base mini-library
+Modified or added lines are marked
+
+In index.html:
+  Marked portions adapted from Google Drive API quickstart (https://developers.google.com/drive/v3/web/quickstart/js)
+  Marked portions adapted from material design lite examples (https://getmdl.io/components/index.html)
+  
+  Loader animation adapted from http://tympanus.net/codrops/2012/11/14/creative-css-loading-animations/
