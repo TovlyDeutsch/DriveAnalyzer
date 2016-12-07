@@ -77,16 +77,12 @@ function displayGraph(files) {
     var data = google.visualization.arrayToDataTable(
        current
       );
-    // set chart title
-    var options = {
-      title: 'Distribution of file types'
-    };
 
-    //
+    // set chart
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
     // draws chart
-    chart.draw(data, options);
+    chart.draw(data);
     $('#graph-loader').remove()
 
     $('#piechart-button').on('click', function() {
@@ -100,7 +96,7 @@ function displayGraph(files) {
         current
       );
 
-      chart.draw(data, options);
+      chart.draw(data);
     })
   }
 
