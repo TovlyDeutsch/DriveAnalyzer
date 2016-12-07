@@ -1,16 +1,6 @@
 // this function both renders the files counts on tab 1 and seperates owned files from shared files
 function fileCount(files) {
 
-  // var fileTypes = [['fileExtension', 'Number of Files'], ['Undefined', 2]
-  // for (var i = 0; i < types.length; i++) {
-  // if (types.slice(0, i - 1).contains(fileTypes[i].fileExtension)) {
-
-  // }
-
-  // else {
-  // 	fileTypes.push([fileTypes[i].fileExtension, 1])
-  //}
-
   var seperatedFiles = getFilesNotOwned(files)
   var filesOwned = seperatedFiles[0]
   var filesNotOwned = seperatedFiles[1]
@@ -65,12 +55,9 @@ function displayGraph(files) {
 
   var current = numberArray
 
+  // the remaining lines below are directly taken and adapted from https://developers.google.com/chart/interactive/docs/gallery/piechart
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
-
-  var button = document.createElement("button");
-  button.id = "piechart-button";
-  button.innerHTML = "hgfghfghfghjfghfghjfghfghfghfghf";
 
   function drawChart() {
 
@@ -82,10 +69,10 @@ function displayGraph(files) {
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    document.getElementById('piechart-button').innerHTML = "hgfghfghfghjfghfghjfghfghfghfghf";
 
     chart.draw(data, options);
     $('#graph-loader').remove()
   }
-
 
 }
