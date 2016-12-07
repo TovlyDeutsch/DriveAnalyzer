@@ -65,12 +65,13 @@ function displayGraph(files) {
   }
 
   // initialize variable to track which data to use
-  var current = numberArray
+  var current = quotaArray
+  var title = "Percentage by quota used (bytes)"
 
   // the remaining lines below are directly taken and adapted from https://developers.google.com/chart/interactive/docs/gallery/piechart
   // load packages for chart
   google.charts.load('current', {'packages':['corechart']});
-  // run drawChart
+  // run drawChart after everything has loaded
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
@@ -80,24 +81,28 @@ function displayGraph(files) {
       );
     // set chart title
     var options = {
+      title: title,
       chartArea: {
         left: 100
       }
     };
 
-    //
+    // set chart
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
     // draws chart
     chart.draw(data, options);
     $('#graph-loader').remove()
 
+    // on click, toggle chart data and redraw chart
     $('#piechart-button').on('click', function() {
       if (current == numberArray) {
         current = quotaArray
+        title = "Percentage by quota used (bytes)"
       }
       else {
         current = numberArray
+        title = "Percentage by number of files"
       }
       var data = google.visualization.arrayToDataTable(
         current
