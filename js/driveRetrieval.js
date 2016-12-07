@@ -1,4 +1,6 @@
-files = []
+/* files is a global variable because getFiles runs recursively,
+if it was local to getFiles(), it would be overwritten on every recursive call */
+var files = []
 // makes a request to Google Drive API for files
 function getFiles(nextPageToken) {
   // 1000 is maximum retrieval size
@@ -28,11 +30,11 @@ function getFiles(nextPageToken) {
     // else, if there are no more files to retrieve, render displays
     else {
       sessionStorage.setItem('files', files)
+      $('.first-loader').remove()
       fileLists = fileCount(files)
       displayGraph(files)
       // only list files owned by me
       var fileTable = listFiles(fileLists[0])
-      $('.first-loader').remove()
       sessionStorage.clear()
       sessionStorage.setItem('files', JSON.stringify(files))
       document.getElementById('table-slot').innerHTML = fileTable
