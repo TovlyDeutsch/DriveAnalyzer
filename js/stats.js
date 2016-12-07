@@ -52,13 +52,13 @@ function displayGraph(files) {
     numberArray.push([type, seperatedArray[type].files.length])
     // initialize quota used by type to 0
     quotaArray.push([type, 0])
-    
+
     // look through files in each file type
     for (var i in seperatedArray[type].files) {
       // if file uses some quota
       if (seperatedArray[type].files[i].quotaBytesUsed != 0) {
         // increment total quota used by file type
-        quotaArray[increment][1] += parseInt(seperatedArray[type].files[i].quotaBytesUsed) 
+        quotaArray[increment][1] += parseInt(seperatedArray[type].files[i].quotaBytesUsed)
       }
     }
     increment += 1
@@ -82,12 +82,26 @@ function displayGraph(files) {
       title: 'Distribution of file types'
     };
 
-    // 
+    //
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
     // draws chart
     chart.draw(data, options);
     $('#graph-loader').remove()
+
+    $('#piechart-button').on('click', function() {
+      if (current == numberArray) {
+        current = quotaArray
+      }
+      else {
+        current = numberArray
+      }
+      var data = google.visualization.arrayToDataTable(
+        current
+      );
+
+      chart.draw(data, options);
+    })
   }
 
 }
