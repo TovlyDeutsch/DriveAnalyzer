@@ -111,8 +111,8 @@ function displayGraph(files) {
         title: title,
         chartArea: {
         left: 100
-      }
-    };
+        }
+      };
 
       chart.draw(data, options);
     })
