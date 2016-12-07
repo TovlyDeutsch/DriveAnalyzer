@@ -68,8 +68,9 @@ function displayGraph(files) {
   var current = numberArray
 
   // the remaining lines below are directly taken and adapted from https://developers.google.com/chart/interactive/docs/gallery/piechart
-  // load packages for chart and specify callback function to 
+  // load packages for chart
   google.charts.load('current', {'packages':['corechart']});
+  // run drawChart
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
