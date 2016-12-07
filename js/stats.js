@@ -45,20 +45,36 @@ function getFilesNotOwned(files) {
 }
 
 function displayGraph(files) {
-  var test = [["Type", "Number"]]
-  var seperatedBy = seperateBy(files, 'type')
-  for (var type in seperatedBy) {
-    test.push([type, seperatedBy[type].files.length])
-  }
 
-  console.log(test, seperatedBy, files)
+  var numberArray = [["Type", "Number"]]
+  var quotaArray = [["Type", "Quota Used"]]
+
+  increment = 1
+  
+  var seperatedArray = seperateBy(files, 'type')
+  for (var type in seperatedArray) {
+    numberArray.push([type, seperatedArray[type].files.length])
+    quotaArray.push([type, 0])
+    console.log(quotaArray)
+    
+    for (var i in seperatedArray[type].files) {
+      if (seperatedArray[type].files[i].quotaBytesUsed != 0) {
+        quotaArray[increment][1] += parseInt(seperatedArray[type].files[i].quotaBytesUsed) 
+      }
+    }
+    increment += 1
+  }
+  
+  current = quotaArray
+  
+
 
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
 
     var data = google.visualization.arrayToDataTable(
-       test
+       current
       );
 
     var options = {

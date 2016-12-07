@@ -129,7 +129,7 @@ function seperateBy(files, property) {
 
 function getType(file) {
   if (typeof file.fileExtension !== 'undefined' && file.fileExtension !== '') {
-    return file.fileExtension
+    return file.fileExtension.toUpperCase()
   }
   else {
     console.log(file.mimeType)
