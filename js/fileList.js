@@ -128,7 +128,7 @@ function seperateBy(files, property) {
 }
 
 function getType(file) {
-  if (typeof file.fileExtension !== 'undefined') {
+  if (typeof file.fileExtension !== 'undefined' && file.fileExtension !== '') {
     return file.fileExtension
   }
   else {
@@ -165,6 +165,8 @@ function getType(file) {
         return 'Unknown'
       case 'application/vnd.google-apps.video':
         return 'Videos'
+      case 'application/pdf':
+        return 'PDF'
     }
   }
 }
