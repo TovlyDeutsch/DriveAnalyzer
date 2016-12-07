@@ -253,3 +253,7 @@ var Undo = function Undo() {
 
   trashFiles($('<div/>').html(selectedString).contents())
 }
+
+function switchData(){
+ 
+}
