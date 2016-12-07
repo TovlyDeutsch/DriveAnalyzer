@@ -63,7 +63,7 @@
           <div class="mdl-cell mdl-cell--6-col">
             <div id='content'>
               <p class="mdl-typography--display-1">Percentage by File Type</p>
-                <ul id="graph-loader" class="loader">
+                <ul id="graph-loader" class="first-loader loader">
                   <li></li>
                   <li></li>
                   <li></li>
@@ -77,7 +77,7 @@
     <section class="mdl-layout__tab-panel" id="fixed-tab-2">
       <div id="content2" class="page-content">
         <div>
-        <button id="delete-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+        <button disabled id="delete-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
           Trash Selected
         </button>
         <ul id="delete-loader" class="loader">
@@ -88,15 +88,15 @@
         <div id="grouping-options">
           <p class="mdl-radio"> Group By: </p>
           <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-            <input checked type="radio" id="option-1" class="mdl-radio__button" name="options" value="none">
+            <input disabled checked type="radio" id="option-1" class="mdl-radio__button" name="options" value="none">
             <span class="mdl-radio__label">None</span>
           </label>
           <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-            <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="type">
+            <input disabled type="radio" id="option-2" class="mdl-radio__button" name="options" value="type">
             <span class="mdl-radio__label">File Type</span>
           </label>
           <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-            <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="owner">
+            <input disabled type="radio" id="option-3" class="mdl-radio__button" name="options" value="owner">
             <span class="mdl-radio__label">Owner</span>
           </label>
         </div>
@@ -105,14 +105,14 @@
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric">File Name</th>
-              <th class="narrow">Quota Used</th>
+              <th class="narrow">Quota Used (Bytes)</th>
               <th class="narrow">Date Created</th>
             </tr>
           </thead>
           <tbody id="table-slot">
         </tbody>
       </table>
-      <ul class="loader">
+      <ul class="first-loader loader">
         <li></li>
         <li></li>
         <li></li>
