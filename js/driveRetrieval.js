@@ -39,9 +39,10 @@ function getFiles(nextPageToken) {
       bindEventHandlers()
     }
   },
-  // catch a display possible errors
+  // catch and display possible errors
   function(response){
-    document.getElementById('file-count').innerHTML = JSON.parse(response.body).error.message
+    $('.first-loader').remove()
+    document.getElementById('file-counts').innerHTML = JSON.parse(response.body).error.message
   })
 
 } // end getFiles()
