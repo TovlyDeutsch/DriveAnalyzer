@@ -107,6 +107,12 @@ function displayGraph(files) {
       var data = google.visualization.arrayToDataTable(
         current
       );
+      var options = {
+        title: title,
+        chartArea: {
+        left: 100
+      }
+    };
 
       chart.draw(data, options);
     })
