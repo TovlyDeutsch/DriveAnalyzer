@@ -40,28 +40,43 @@ function getFilesNotOwned(files) {
       filesNotOwned.push(element)
     }
   })
+
   return [filesOwned, filesNotOwned]
 }
 
 function displayGraph(files) {
-  var types = []
-  for (var i = 0; i < files.length; i++) {
-    types.push(files[i].fileExtension)
+
+  var numberArray = [['Type', 'Number']]
+  var quotaArray = [['Type', 'Quota Used']]
+
+  var increment = 1
+  var seperatedArray = seperateBy(files, 'type')
+  for (var type in seperatedArray) {
+    numberArray.push([type, seperatedArray[type].files.length])
+    quotaArray.push([type, 0])
+    
+    for (var i in seperatedArray[type].files) {
+      if (seperatedArray[type].files[i].quotaBytesUsed != 0) {
+        quotaArray[increment][1] += parseInt(seperatedArray[type].files[i].quotaBytesUsed) 
+      }
+    }
+    increment += 1
   }
+
+  var current = numberArray
 
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
+
+  var button = document.createElement("button");
+  button.id = "piechart-button";
+  button.innerHTML = "hgfghfghfghjfghfghjfghfghfghfghf";
+
   function drawChart() {
 
-    var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-      ['Work',     11],
-      ['Eat',      2],
-      ['Commute',  2],
-      ['Watch TV', 2],
-      ['Sleep',    7]
-    ]);
-
+    var data = google.visualization.arrayToDataTable(
+       current
+      );
     var options = {
       title: 'Distribution of file types'
     };
@@ -71,4 +86,6 @@ function displayGraph(files) {
     chart.draw(data, options);
     $('#graph-loader').remove()
   }
+
+
 }

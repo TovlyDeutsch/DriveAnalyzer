@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <!-- build:dist -->
   <script src="dist/concat.min.js"></script>
   <!-- endbuild -->
@@ -61,13 +63,14 @@
           <div class="mdl-cell mdl-cell--6-col">
             <div id='content'>
               <p class="mdl-typography--display-1">Percentage by File Type</p>
+              <div id="piechart" class="mdl-typography--headline" style="width: 900px; height: 500px;"></div>
+              <button id="piechart-button" class="btn waves-effect waves-light" style="display: block; margin: 0 auto;">Toggle</button>
                 <ul id="graph-loader" class="first-loader loader">
                   <li></li>
                   <li></li>
                   <li></li>
-                </ul>
-              <div id='piechart' class="mdl-typography--headline" style="width: 900px; height: 500px;"></div>
-            </div>
+                </ul>  
+             </div>
           </div> <!-- end right column -->
         </div> <!-- end grid -->
       </div> <!-- end tab 1 content -->

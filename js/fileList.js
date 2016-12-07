@@ -128,8 +128,8 @@ function seperateBy(files, property) {
 }
 
 function getType(file) {
-  if (typeof file.fileExtension !== 'undefined') {
-    return file.fileExtension
+  if (typeof file.fileExtension !== 'undefined' && file.fileExtension !== '') {
+    return file.fileExtension.toUpperCase()
   }
   else {
     console.log(file.mimeType)
@@ -165,6 +165,8 @@ function getType(file) {
         return 'Unknown'
       case 'application/vnd.google-apps.video':
         return 'Videos'
+      case 'application/pdf':
+        return 'PDF'
     }
   }
 }
@@ -201,9 +203,9 @@ var trashFiles = function trashFiles(previouslySelected) {
   var snackbarContainer = document.getElementById('snackbar')
   var data = {
     message: 'Error: ',
-    timeout: 2000,
+    timeout: 4000,
     actionHandler: trashFiles,
-    actionText: 'Try Again'
+    actionText: ''
   }
 
   var error = false
@@ -222,11 +224,12 @@ var trashFiles = function trashFiles(previouslySelected) {
       data.message = trash === true ? 'Success' : 'Done'
       data.actionText = trash === true ? 'Undo' : ''
       data.actionHandler = trash === true ? Undo : ''
+      // remove selected rows if delete command
+
     }
     snackbarContainer.MaterialSnackbar.showSnackbar(data)
-    // remove selected rows if delete command
     if (trash === true) {
-      $('.selected').addClass('trash')
+     $('.selected').addClass('trash')
     }
     // display trashed rows if undo command
     else {
