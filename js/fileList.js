@@ -132,8 +132,7 @@ function getType(file) {
     return file.fileExtension.toUpperCase()
   }
   else {
-    console.log(file.mimeType)
-    // handle Google's file types
+    // handle Google's file types which don't have a .fileExtension
     switch (file.mimeType) {
       case 'application/vnd.google-apps.audio':
         return 'Audio'
@@ -218,6 +217,8 @@ var trashFiles = function trashFiles(previouslySelected) {
       if(results[prop].status !== 200) {
         data.message += results[prop].result.error.message + ', '
         error = true
+        delete data.actionHandler
+        delete data.actionText
       }
     } // end for loop
     if (error === false) {
@@ -228,8 +229,9 @@ var trashFiles = function trashFiles(previouslySelected) {
 
     }
     snackbarContainer.MaterialSnackbar.showSnackbar(data)
-    if (trash === true) {
+    if (trash === true && error === false) {
      $('.selected').addClass('trash')
+     setTimeout(function(){$('.trash').remove()}, 4000)
     }
     // display trashed rows if undo command
     else {

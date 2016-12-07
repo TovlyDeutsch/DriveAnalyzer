@@ -8,14 +8,15 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <!-- build:dist -->
-  <script src="dist/concat.min.js"></script>
+  <script defer src="dist/concat.min.js"></script>
   <!-- endbuild -->
-  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script defer src="https://www.gstatic.com/charts/loader.js"></script>
+  <script defer src="https://apis.google.com/js/client.js?onload=checkAuth"></script>  <!--From Google Drive API quickstart-->
 </head>
 <body>
   <!-- nav bar framework/structure from https://getmdl.io/components/index.html#layout-section -->
@@ -69,7 +70,11 @@
                   <li></li>
                   <li></li>
                   <li></li>
+<<<<<<< HEAD
                 </ul>  
+=======
+                </ul>
+>>>>>>> b2ce2d9ea0d099cdbd02dc3dccbb2959230e4788
              </div>
           </div> <!-- end right column -->
         </div> <!-- end grid -->
@@ -138,6 +143,4 @@
   <!-- endbuild -->
 </body>
 
-<!--Start from Google Drive API quickstart-->
-<script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 </html>
