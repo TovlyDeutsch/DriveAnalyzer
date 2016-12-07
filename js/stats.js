@@ -40,15 +40,18 @@ function getFilesNotOwned(files) {
       filesNotOwned.push(element)
     }
   })
-  return [filesOwned, filesNotOwned]
+
+  var test = []
+  var seperatedBy = seperateBy(files, 'type')
+  // for (var type = 0; type < file_types.length; type++) {
+  // test.push([seperatedBy[1]['type'], seperatedBy[1]['type'].files.length])
+  // }
+
+  return seperatedBy
+  //return [filesOwned, filesNotOwned]
 }
 
 function displayGraph(files) {
-  // var test = []
-  // var file_types = seperateBy(files, 'type')
-  // for (var type = 0; type < file_types.length; type++) {
-  // test.push([file_types[1]['type'], file_types[1]['type'].files.length])
-  // }
 
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
@@ -56,11 +59,7 @@ function displayGraph(files) {
 
     var data = google.visualization.arrayToDataTable([
        ['Task', 'Hours per Day'],
-       ['Work',     11],
-       ['Eat',      2],
-       ['Commute',  2],
-       ['Watch TV', 2],
-       ['Sleep',    10]
+       ['Work',     11]
      ]);
 
     var options = {
