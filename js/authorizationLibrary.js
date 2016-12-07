@@ -1,4 +1,4 @@
-// This code and comments is taken directly from Google Drive API documentation quickstart (https://developers.google.com/drive/v3/web/quickstart/js) as a base mini-library
+// This code and comments is the from Google Drive API documentation quickstart (https://developers.google.com/drive/v3/web/quickstart/js) as a base mini-library
 // modified or added lines are marked
 
 var CLIENT_ID = '363872304328-t3h8sa4icpbaj9lkrpraf5ujoidtsc6h.apps.googleusercontent.com';
