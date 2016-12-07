@@ -54,10 +54,6 @@ function bindEventHandlers() {
     trashFiles()
   })
 
-  $('#piechart-button').on('click', function() {
-    switchData()
-  })
-
   // group files on radio button change
   $('input[type=radio][name=options]').change(function() {
     $('button').prop('disabled', true)
