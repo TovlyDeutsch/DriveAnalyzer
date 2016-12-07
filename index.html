@@ -8,10 +8,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script src="concat.min.js"></script>
-  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script defer src="https://www.gstatic.com/charts/loader.js"></script>
+  <script defer src="https://apis.google.com/js/client.js?onload=checkAuth"></script>  <!--From Google Drive API quickstart-->
 </head>
 <body>
   <!-- nav bar framework/structure from https://getmdl.io/components/index.html#layout-section -->
@@ -38,9 +41,6 @@
     </button>
   </div>
   <!--End from Google Drive API quickstart-->
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Title</span>
-  </div>
   <main class="mdl-layout__content none">
     <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
       <div class="page-content">
@@ -62,13 +62,18 @@
           <div class="mdl-cell mdl-cell--6-col">
             <div id='content'>
               <p class="mdl-typography--display-1">Percentage by File Type</p>
+              <div id="piechart" class="mdl-typography--headline" style="width: 900px; height: 500px;"></div>
+              <button id="piechart-button" class="btn waves-effect waves-light" style="display: block; margin: 0 auto;">Toggle</button>
                 <ul id="graph-loader" class="first-loader loader">
                   <li></li>
                   <li></li>
                   <li></li>
+<<<<<<< HEAD
+                </ul>  
+=======
                 </ul>
-              <div id='piechart' class="mdl-typography--headline" style="width: 900px; height: 500px;"></div>
-            </div>
+>>>>>>> b2ce2d9ea0d099cdbd02dc3dccbb2959230e4788
+             </div>
           </div> <!-- end right column -->
         </div> <!-- end grid -->
       </div> <!-- end tab 1 content -->
@@ -131,6 +136,4 @@
 
 </body>
 
-<!--Start from Google Drive API quickstart-->
-<script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 </html>
