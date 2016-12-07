@@ -79,7 +79,6 @@ function displayGraph(files) {
       );
     // set chart title
     var options = {
-      title: "Hello",
       chartArea: {
         left: 100
       }
