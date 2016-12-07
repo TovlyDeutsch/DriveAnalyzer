@@ -64,6 +64,7 @@ function bindEventHandlers() {
     if (document.getElementById('option-1').checked) {
       document.getElementById('table-slot').innerHTML = listFiles(getFilesNotOwned(files)[0])
       $('input').prop('disabled', false)
+      $('button').prop('disabled', false)
       $('label').removeClass('is-disabled')
       $('#delete-loader').css('display', 'none')
       return
@@ -100,15 +101,17 @@ function bindEventHandlers() {
     }
     // render list
     document.getElementById('table-slot').innerHTML = tableString
-    // enable radio buttons
+    // enable radio buttons and undo button
     $('input').prop('disabled', false)
     $('label').removeClass('is-disabled')
+    $('button').prop('disabled', false)
     $('#delete-loader').css('display', 'none')
   });
 
-  // enable radio buttons
+  // enable radio buttons and undo button
   $('input').prop('disabled', false)
   $('label').removeClass('is-disabled')
+  $('button').prop('disabled', false)
 } // end bind event handlers
 
 // function below adapted from http://stackoverflow.com/a/14696535/4159228
@@ -223,10 +226,10 @@ var trashFiles = function trashFiles(previouslySelected) {
     } // end for loop
     if (error === false) {
       data.message = trash === true ? 'Success' : 'Done'
-      data.actionText = trash === true ? 'Undo' : ''
+      data.actionText = trash === true ? 'Undo' : '';
       data.actionHandler = trash === true ? Undo : ''
+      console.log(data.actionHandler)
       // remove selected rows if delete command
-
     }
     snackbarContainer.MaterialSnackbar.showSnackbar(data)
     if (trash === true && error === false) {
