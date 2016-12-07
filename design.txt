@@ -1,0 +1,42 @@
+﻿Website link: https://tovlydeutsch.github.io/cs50DrivePowerToolsNew/
+Github repository: https://github.com/TovlyDeutsch/cs50DrivePowerToolsNew
+“Gh-pages” branch: https://github.com/TovlyDeutsch/cs50DrivePowerToolsNew/tree/gh-pages
+
+
+The website is served from Github Pages. Specifically, it is served from the “gh-pages” branch of our Github repository. This 
+“gh-pages” branch only contains the “dist” folder of our “master” branch. In turn, this “dist” folder contains our concatenated 
+and minified js and css files. Concatenating our js files and minifying our js and css files improves loading times. We completed
+this concatenation and minification via the task-runner “gulp” and our process is outlined in our “gulpfile.js.” We kept our Github
+Pages files on a separate branch for three reasons. First, stylesheet link tags in index.html do not have to reference a subdirectory. 
+Second, only files needed for the website are accessible from the url 
+(e.g. https://tovlydeutsch.github.io/cs50DrivePowerToolsNew/documentation.txt won’t work). This is good practice for security, 
+although not really in this case considering our repository is public, and prevents developers from accidentally including 
+unminified or unconcatenated files from outside the “dist” folder. Third, separate branches mean we can push a git commit without 
+immediately sending that change to the website, which is useful when we are testing code.
+	When a user loads the site, they are served the “index.html” file from the “gh-pages”
+branch of our repository. This file serves as our base page layout including the navigation bar, titles, and empty table for the
+list-view. The “index.html” links in the necessary css, js, and fonts for the Google Material Design Lite library. We chose to use
+Material Design because it is elegant and it is regularly used by Google, providing familiarity to the user. The “index.html” also
+links in our concatenated and minified Javascript file, our stylesheet, the Google Charts API, and the Google authentication checker
+script. From here on, although we will be referencing separate js files from the “js” folder in our master branch, on the actual site
+all the Javascript is combined into “concat.min.js” for faster loading.
+        When the html is parsed, “authorizationLibrary.js” checks if the user has authorized our website and prompts them to do so 
+if they haven’t. After authorization, “authorizationLibrary.js” loads the Google Drive API and calls “getFiles()” from 
+“driveRetrieval.js.” This function requests 1000 files at time (API limit) from the user’s Drive. It continues executing requests 
+recursively if the response indicates that there are more files to be retrieved (via a “nextPageToken”). These requests could not 
+be executed as one batch request because the number of requests is not known initially: each request indicates if there are more files 
+to be retrieved. When all files are retrieved, the loaders are removed and the files are stored in sessionStorage for future use 
+(e.g. rerendering when grouping changes). Then, the file counts, graph, and file list are all rendered via “stats.js” and 
+“fileList.js.” 
+	The displayGraph() function within stats.js is called within dataRetrieval.js to display the pie chart. This function first 
+creates two separate arrays (numberArray and quotaArray) that store the data necessary for the two different pie chart views (based 
+on file number and based on quota used). When the “TOGGLE” button is clicked, it will switch which data set is being displayed. 
+These data arrays are created by parsing through the output of the seperateBy() function run on the list of all of the user’s files, 
+which creates an object containing all of the user’s files of a common file type within separate arrays. To create the numberArray, 
+we log the length of each file type array to determine how many files of each type exist. To create the quotaArray, we increases the
+total quota used by each file type by the appropriate amount whenever a file of that type used more than zero quota.
+	Additionally, event handlers are bound to the radio buttons, pie chart button, delete button, and table body 
+(to detect row clicks). A change to the radio button selection causes the table to rerender with the proper grouping.
+Clicking the pie chart button toggles the data being shown in the pie chart between number of files and quota used data sets. 
+And, clicking the delete button sends a single batch request, which is faster than multiple requests, with the requested deletions 
+to the Drive API.

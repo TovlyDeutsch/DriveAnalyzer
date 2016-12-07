@@ -1,0 +1,25 @@
+﻿Website link: https://tovlydeutsch.github.io/cs50DrivePowerToolsNew/
+        
+Our project is a website building upon Google Drive. To access the completed version of our project, visit 
+https://tovlydeutsch.github.io/cs50DrivePowerToolsNew/. If you are not logged into your Google account or have not authorized our 
+website with your account, there will be an “AUTHORIZE” button that appears. Click the “AUTHORIZE” and follow the prompts to log in 
+and/or authorize our website. After authorization (and any time you visit the site while signed in thereafter), the page will load, and you’ll see loader spinners appear. When the loaders disappear, you will see statistics about your Google Drive under the tab “STATISTICS.”
+        On the left of that “STATISTICS” tab, there is a breakdown of the number of files in your Google Drive. More specifically, 
+you will see the number of files in your Drive that you own listed first. Underneath that is the number of files in your Drive that 
+are shared with you, i.e. files that are owned by someone else. And, beneath that is the total number of files in your Drive, a sum 
+of the two previous numbers.
+        On the right of that first “STATISTICS” tab, you will find a pie chart. Initially, the pie chart breaks down the percentage 
+of your quota (bytes) taken up by each file type. Beneath that pie chart, there is a button that reads “TOGGLE.” When you first click 
+on this button, it will switch the information being displayed by the pie chart to show the percentage of each file type by number of 
+files. Only file types that are using quota will be displayed in the quota graph, so a certain file type may be present in the number 
+of files view and not in the quota view. You can continue to press the “TOGGLE” button to switch back and forth between the two pie 
+chart data sets.
+If you click on the right tab in the top navigation bar, titled “LIST VIEW,” a list of your files will appear, sorted initially by 
+their creation date. At the top of the tab, you can click on the different radio buttons for different file grouping options. 
+Selecting “File Type” will group by file type, including the different Google Drive specific file types (e.g. Docs, Sheets, etc.). 
+Selecting the “Owner” button will sort by owner of the file. Only when you group by “Owner” will files shared with you appear. 
+Otherwise, if you have selected either of the other two radio buttons, only files you own will be viewable in the list of files. 
+When you’re in a grouping mode (“File Type” or “Owner”), you can click on the group headers (e.g. “Google Docs”) to collapse and 
+expand selected groups.
+        Another feature of the “LIST VIEW” is file trashing. You can click on a file to select it, and it will be highlighted blue. 
+You can select multiple files by clicking each of them individually; if you have currently selected a certain file and you then click on a different file, both of them will become selected and highlighted blue. Clicking on a new file does not deselect previously selected files. In order to deselect a given file, you click on that file again, and the file will lose its blue highlighting. If you have selected at least one file, you can click on the red “TRASH SELECTED” button in the top left to trash them. (If you have not selected any files, you will not be able to click on the “TRASH SELECTED” button.) When you click on the button, a little loader spinner will appear to its right. If the operation is successful, the loader will disappear and you’ll get a little pop up on the bottom of the screen saying “Success” with the option to undo. You can click on the “UNDO” button to return the deleted file(s) from the trash. If there are any errors, such as you not having permission to delete one of the files you selected, the popup will show those errors.
