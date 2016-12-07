@@ -47,8 +47,8 @@ function getFilesNotOwned(files) {
   // test.push([seperatedBy[1]['type'], seperatedBy[1]['type'].files.length])
   // }
 
-  return seperatedBy
-  //return [filesOwned, filesNotOwned]
+  // return seperatedBy
+  return [filesOwned, filesNotOwned]
 }
 
 function displayGraph(files) {
