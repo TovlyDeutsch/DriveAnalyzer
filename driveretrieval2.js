@@ -11,7 +11,7 @@ var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
-files = []
+// files = []
 /**
  *  On load, called to load the auth2 library and API client library.
  */
@@ -50,28 +50,107 @@ async function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     authorizeButton.style.display = 'none';
     signoutButton.style.display = 'block';
-    lFiles = await getFiles();
-    console.log(lFiles)
+    let files = await getFiles();
     // let response = await gapi.client.drive.files.list({q: `'${lFiles[0].id}' in parents`})
-    console.log('fparent', await getFolderSize(lFiles[0].id))
-    // for (var i = 0; i < lFiles.length; i++) {
-    //   var file = lFiles[i];
-    //   appendPre(file.name + ' (' + file.id + ')');
-    // }
+    // console.log(lFiles[0])
+    let archiveResponse = await gapi.client.drive.files.get({
+      fileId: '0B5OxMCWiLhrMWncxdjFjdGc5Y0E',
+      fields: "quotaBytesUsed, ownedByMe, parents, mimeType"
+      })
+    console.log(archiveResponse.result)
+    let rootFolderResponse = await gapi.client.drive.files.get({fileId: 'root'})
+    let rootFolder = rootFolderResponse.result
+    let rootFolderId = rootFolder.id
+    let knownIds = {}
+    knownIds[rootFolderId] = [rootFolderId]
+    rootFolder.children = []
+    let folderStructure = {children: {}}
+    folderStructure.children[rootFolderId] = rootFolder
+    let filedIds = new Set([rootFolderId])
+    console.log(files)
+    function placeFiles() {
+      for (file of files) {
+        if (file.name === 'Old Resumes') {
+          // console.log(knownIds.hasOwnProperty(file.parents[0]))
+          // console.log(!filedIds.has(file.id))
+        }
+        if (file.parents && knownIds.hasOwnProperty(file.parents[0]) && !filedIds.has(file.id)) {
+          // if (file.name === 'Old Resumes') {
+          //   console.log('att2')
+          // }
+          let path = knownIds[file.parents[0]]
+          let currentObj = folderStructure
+          for (el of path) {
+            currentObj = currentObj.children[el]
+          }
+          if (!currentObj.hasOwnProperty('children')) { currentObj.children = {}}
+          currentObj.children[file.id] = file
+          // console.log(file.mimeType)
+          if (file.mimeType === 'application/vnd.google-apps.folder') {
+            knownIds[file.id] = path.concat(file.id)
+            // console.log('aded to known', file.id)
+          }
+        }
+      }
+    }
+    let numAttempts = 0
+    while (filedIds.size < files.length && numAttempts < 20) {
+      placeFiles()
+      numAttempts++
+    }
+  console.log(folderStructure)
   } else {
     authorizeButton.style.display = 'block';
     signoutButton.style.display = 'none';
   }
 }
 
+function idFetch(fileList) {
+  returnObj = {}
+  for (file of fileList) {
+    returnObj[file.id] = file
+  }
+  return returnObj
+}
+
+function createNestedDirStructure(files) {
+  let folderStructure = {}
+  let dirLevelToFolder = {}
+  for (file of files) {
+    let depth = file.parents.length
+    if (!dirLevelToFolder.hasOwnProperty(depth)) {dirLevelToFolder[depth] = []}
+    dirLevelToFolder[depth].push(file)
+  }
+  console.log(dirLevelToFolder)
+  folderStructure = idFetch(dirLevelToFolder[1])
+  for (depthLevel of Object.values(dirLevelToFolder).slice(1)) {
+    for (file of depthLevel) {
+      chainAttach(folderStructure, file)
+    }
+  }
+  return folderStructure
+}
+
+function chainAttach(folderStructure, file) {
+  let parents = file.parents
+  let currentObj = folderStructure[parents[0]]
+  for (parent of parents.slice(1)) {
+    if (!currentObj) {return}
+    currentObj = folderStructure.children[parent]
+  }
+  if (!currentObj.hasOwnProperty('children')) {
+    currentObj.children = []
+  }
+  currentObj.children.append(file)
+}
+
 async function getFolderSize(folderId) {
   let response = await gapi.client.drive.files.list({
     q: `'${folderId}' in parents`,
-    fields: "nextPageToken, files(quotaBytesUsed, ownedByMe)"
+    fields: "nextPageToken, files(quotaBytesUsed, ownedByMe, parents, mimeType)"
   })
   let files = response.result.files
   let totalFolSize = files.reduce((totalSize, file) => totalSize + parseInt(file.quotaBytesUsed), 0)
-  // console.log(parseInt(totalFolSize))
   return totalFolSize / 1e+6
 }
 
@@ -108,21 +187,23 @@ async function getFiles() {
 
   let nextPageToken = null;
   let files = [];
-  let numRequests;
+  let numRequests = 0;
 // TODO abstract streaming for nextpage thing
   do {
     parameters = {
-      'pageSize': 1,
-      // 'fields': "nextPageToken, files(id, name)",
+      'pageSize': 1000,
+      'fields': "nextPageToken, files(id, name, mimeType, parents)",
       // 'fields': "nextPageToken, files(\
       // id, name, createdTime, fileExtension, quotaBytesUsed, owners, ownedByMe, webViewLink, mimeType)",
-      'spaces': 'drive',
       // 'q': "mimeType='image/jpeg'",
       q: "mimeType = 'application/vnd.google-apps.folder'",
     }
   
     // if not first request, set the pageToken to the next page
-    if (nextPageToken) { parameters.pageToken = nextPageToken}
+    if (nextPageToken) { 
+      console.log('set up new req')
+      parameters.pageToken = nextPageToken
+    }
   
     // adapted from Google Drive API documentation quickstart (https://developers.google.com/drive/v3/web/quickstart/js)
     numRequests++
@@ -130,20 +211,15 @@ async function getFiles() {
     try {
       let response = await gapi.client.drive.files.list(parameters);
       files = files.concat(response.result.files)
+      if (response.result.nextPageToken) {
+        nextPageToken = response.result.nextPageToken
+      }
+      console.log(response)
     } catch(err) {
       alert(err); // TypeError: failed to fetch
     }
-    // use of promises adapted from https://developers.google.com/api-client-library/javascript/features/promises
-    // await request(function(response) {
-    //   files = files.concat(response.result.files)
-    //   console.log(files)
-    // },
-    // // catch and display possible errors
-    // function(response){
-    //   console.log('err')
-    // })
-    
-  } while (nextPageToken && numRequests < 10);
+    console.log(numRequests, nextPageToken)
+  } while (nextPageToken && numRequests < 50);
   return files;
 }
 /**
@@ -166,3 +242,19 @@ async function getFiles() {
 //     }
 //   });
 // }
+
+function defDict(type) {
+  var dict = {};
+  console.log('def')
+  return {
+      get: function (key) {
+      console.log('get')
+      if (!dict[key]) {
+          console.log('filling')
+          dict[key] = type.constructor();
+      }
+      return dict[key];
+      },
+      dict: dict
+  };
+}
