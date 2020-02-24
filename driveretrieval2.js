@@ -196,12 +196,13 @@ async function getFiles() {
       // 'fields': "nextPageToken, files(\
       // id, name, createdTime, fileExtension, quotaBytesUsed, owners, ownedByMe, webViewLink, mimeType)",
       // 'q': "mimeType='image/jpeg'",
-      q: "mimeType = 'application/vnd.google-apps.folder'",
+      q: "mimeType = 'application/vnd.google-apps.folder' and trashed = false and 'me' in owners",
+      // spaces: 'drive',
+      // corpora: 'user'
     }
   
     // if not first request, set the pageToken to the next page
     if (nextPageToken) { 
-      console.log('set up new req')
       parameters.pageToken = nextPageToken
     }
   
@@ -211,37 +212,21 @@ async function getFiles() {
     try {
       let response = await gapi.client.drive.files.list(parameters);
       files = files.concat(response.result.files)
-      if (response.result.nextPageToken) {
+      if (response.result.nextPageToken != nextPageToken) {
         nextPageToken = response.result.nextPageToken
       }
-      console.log(response)
+      else {
+        console.log('finished')
+        break
+      }
+      // console.log(response)
     } catch(err) {
-      alert(err); // TypeError: failed to fetch
+      console.log(err) // TypeError: failed to fetch
     }
     console.log(numRequests, nextPageToken)
-  } while (nextPageToken && numRequests < 50);
+  } while (nextPageToken != null && numRequests < 500);
   return files;
 }
-/**
- * Print files.
- */
-// function listFiles() {
-//   gapi.client.drive.files.list({
-//     'pageSize': 1000,
-//     'fields': "nextPageToken, files(id, name)"
-//   }).then(function(response) {
-//     appendPre('Files:');
-//     var files = response.result.files;
-//     if (files && files.length > 0) {
-//       for (var i = 0; i < files.length; i++) {
-//         var file = files[i];
-//         appendPre(file.name + ' (' + file.id + ')');
-//       }
-//     } else {
-//       appendPre('No files found.');
-//     }
-//   });
-// }
 
 function defDict(type) {
   var dict = {};
