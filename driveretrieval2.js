@@ -50,14 +50,15 @@ async function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     authorizeButton.style.display = 'none';
     signoutButton.style.display = 'block';
-    let files = await getFiles();
-    // let response = await gapi.client.drive.files.list({q: `'${lFiles[0].id}' in parents`})
-    // console.log(lFiles[0])
-    let archiveResponse = await gapi.client.drive.files.get({
-      fileId: '0B5OxMCWiLhrMWncxdjFjdGc5Y0E',
-      fields: "quotaBytesUsed, ownedByMe, parents, mimeType"
-      })
-    console.log(archiveResponse.result)
+    let filesStored = sessionStorage.getItem('files')
+    let files;
+    if (filesStored){
+      console.log('loading cached files')
+      files = JSON.parse(filesStored)
+    }
+    else {
+      files = await getFiles();
+    }
     let rootFolderResponse = await gapi.client.drive.files.get({fileId: 'root'})
     let rootFolder = rootFolderResponse.result
     let rootFolderId = rootFolder.id
@@ -67,17 +68,9 @@ async function updateSigninStatus(isSignedIn) {
     let folderStructure = {children: {}}
     folderStructure.children[rootFolderId] = rootFolder
     let filedIds = new Set([rootFolderId])
-    console.log(files)
     function placeFiles() {
       for (file of files) {
-        if (file.name === 'Old Resumes') {
-          // console.log(knownIds.hasOwnProperty(file.parents[0]))
-          // console.log(!filedIds.has(file.id))
-        }
         if (file.parents && knownIds.hasOwnProperty(file.parents[0]) && !filedIds.has(file.id)) {
-          // if (file.name === 'Old Resumes') {
-          //   console.log('att2')
-          // }
           let path = knownIds[file.parents[0]]
           let currentObj = folderStructure
           for (el of path) {
@@ -85,10 +78,8 @@ async function updateSigninStatus(isSignedIn) {
           }
           if (!currentObj.hasOwnProperty('children')) { currentObj.children = {}}
           currentObj.children[file.id] = file
-          // console.log(file.mimeType)
           if (file.mimeType === 'application/vnd.google-apps.folder') {
             knownIds[file.id] = path.concat(file.id)
-            // console.log('aded to known', file.id)
           }
         }
       }
@@ -98,61 +89,30 @@ async function updateSigninStatus(isSignedIn) {
       placeFiles()
       numAttempts++
     }
-  console.log(folderStructure)
+    // console.log(folderStructure)
+    document.getElementById('results').innerHTML = printFolderStructure(folderStructure, 0)
   } else {
     authorizeButton.style.display = 'block';
     signoutButton.style.display = 'none';
   }
 }
 
-function idFetch(fileList) {
-  returnObj = {}
-  for (file of fileList) {
-    returnObj[file.id] = file
+function printFolderStructure(file, descendancyLevel) {
+  let totalString = file.name ? file.name + '<br>' : '<br>'
+  if (file.hasOwnProperty('children') && Object.entries(file.children).length != 0) {
+    for (let fileId in file.children) {
+      let childFile = file.children[fileId]
+      totalString += '&nbsp;'.repeat(descendancyLevel) + childFile.name + '<br>'
+      if (childFile.hasOwnProperty('children')) {
+        for (let file2 of Object.values(childFile.children)) {
+          totalString += ('&nbsp;'.repeat(descendancyLevel) + printFolderStructure(file2, descendancyLevel + 1) + '<br>')
+        }
+      }
+    } 
   }
-  return returnObj
+  return totalString
 }
 
-function createNestedDirStructure(files) {
-  let folderStructure = {}
-  let dirLevelToFolder = {}
-  for (file of files) {
-    let depth = file.parents.length
-    if (!dirLevelToFolder.hasOwnProperty(depth)) {dirLevelToFolder[depth] = []}
-    dirLevelToFolder[depth].push(file)
-  }
-  console.log(dirLevelToFolder)
-  folderStructure = idFetch(dirLevelToFolder[1])
-  for (depthLevel of Object.values(dirLevelToFolder).slice(1)) {
-    for (file of depthLevel) {
-      chainAttach(folderStructure, file)
-    }
-  }
-  return folderStructure
-}
-
-function chainAttach(folderStructure, file) {
-  let parents = file.parents
-  let currentObj = folderStructure[parents[0]]
-  for (parent of parents.slice(1)) {
-    if (!currentObj) {return}
-    currentObj = folderStructure.children[parent]
-  }
-  if (!currentObj.hasOwnProperty('children')) {
-    currentObj.children = []
-  }
-  currentObj.children.append(file)
-}
-
-async function getFolderSize(folderId) {
-  let response = await gapi.client.drive.files.list({
-    q: `'${folderId}' in parents`,
-    fields: "nextPageToken, files(quotaBytesUsed, ownedByMe, parents, mimeType)"
-  })
-  let files = response.result.files
-  let totalFolSize = files.reduce((totalSize, file) => totalSize + parseInt(file.quotaBytesUsed), 0)
-  return totalFolSize / 1e+6
-}
 
 /**
  *  Sign in the user upon button click.
@@ -166,6 +126,13 @@ function handleAuthClick(event) {
  */
 function handleSignoutClick(event) {
   gapi.auth2.getAuthInstance().signOut();
+}
+
+/**
+ *  Sign out the user upon button click.
+ */
+function handleCacheClearClick(event) {
+  sessionStorage.clear()
 }
 
 /**
@@ -192,11 +159,11 @@ async function getFiles() {
   do {
     parameters = {
       'pageSize': 1000,
-      'fields': "nextPageToken, files(id, name, mimeType, parents)",
+      'fields': "nextPageToken, files(id, name, mimeType, parents, quotaBytesUsed)",
       // 'fields': "nextPageToken, files(\
       // id, name, createdTime, fileExtension, quotaBytesUsed, owners, ownedByMe, webViewLink, mimeType)",
       // 'q': "mimeType='image/jpeg'",
-      q: "mimeType = 'application/vnd.google-apps.folder' and trashed = false and 'me' in owners",
+      q: "trashed = false and 'me' in owners",
       // spaces: 'drive',
       // corpora: 'user'
     }
@@ -216,15 +183,15 @@ async function getFiles() {
         nextPageToken = response.result.nextPageToken
       }
       else {
-        console.log('finished')
         break
       }
-      // console.log(response)
     } catch(err) {
       console.log(err) // TypeError: failed to fetch
     }
     console.log(numRequests, nextPageToken)
-  } while (nextPageToken != null && numRequests < 500);
+  } while (nextPageToken != null && numRequests < 2);
+  sessionStorage.setItem('files', JSON.stringify(files))
+  console.log('finished')
   return files;
 }
 

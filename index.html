@@ -1,140 +1,25 @@
-<!-- Marked portions adapted from Google Drive API quickstart (https://developers.google.com/drive/v3/web/quickstart/js) -->
-<!-- Marked portions adapted from material design lite examples (https://getmdl.io/components/index.html) -->
-
+<!DOCTYPE html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-  <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-  <!-- build:dist -->
-  <script defer src="dist/concat.min.js"></script>
-  <!-- endbuild -->
-  <script defer src="https://www.gstatic.com/charts/loader.js"></script>
-  <script defer src="https://apis.google.com/js/client.js?onload=checkAuth"></script>  <!--From Google Drive API quickstart-->
-</head>
-<body>
-  <!-- nav bar framework/structure from https://getmdl.io/components/index.html#layout-section -->
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
-  mdl-layout--fixed-tabs">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
-      <span class="mdl-layout-title">Google Drive Analyzer</span>
-    </div>
-    <!-- Tabs -->
-      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Statistics</a>
-        <a href="#fixed-tab-2" class="mdl-layout__tab">List View</a>
-        <!-- <a href="#fixed-tab-3" class="mdl-layout__tab">Files By Owner</a> -->
-    </div>
-  </header>
-  <!--Start from Google Drive API quickstart-->
-  <div id="authorize-div" style="display: none">
-    <h4>Authorize access to your Google Drive</h4>
-    <!--Button for the user to click to initiate auth sequence -->
-    <button id="authorize-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="handleAuthClick(event)">
-      Authorize
-    </button>
-  </div>
-  <!--End from Google Drive API quickstart-->
-  <main class="mdl-layout__content none">
-    <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
-      <div class="page-content">
-        <div class="mdl-grid mdl-color-text--grey-600">
-          <div class="mdl-cell mdl-cell--6-col">
-            <div id='file-count-wrapper'>
-              <div id='content'>
-                <p class="mdl-typography--display-1">Google Drive Files Counts</p>
-                <div id='file-counts'>
-                  <ul class="loader">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mdl-cell mdl-cell--6-col">
-            <div id='content'>
-              <p class="mdl-typography--display-1">Percentage by File Type</p>
-              <ul id="graph-loader" class="first-loader loader">
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-              <div id="piechart" class="mdl-typography--headline" style="width: 900px; height: 500px;"></div>
-              <button id="piechart-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display: block; margin: 0 auto;">Toggle</button>
-             </div>
-          </div> <!-- end right column -->
-        </div> <!-- end grid -->
-      </div> <!-- end tab 1 content -->
-    </section>
-    <section class="mdl-layout__tab-panel" id="fixed-tab-2">
-      <div id="content2" class="page-content">
-        <div>
-        <button disabled id="delete-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-          Trash Selected
-        </button>
-        <ul id="delete-loader" class="loader">
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-        <div id="grouping-options">
-          <p class="mdl-radio"> Group By: </p>
-          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-            <input disabled checked type="radio" id="option-1" class="mdl-radio__button" name="options" value="none">
-            <span class="mdl-radio__label">None</span>
-          </label>
-          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-            <input disabled type="radio" id="option-2" class="mdl-radio__button" name="options" value="type">
-            <span class="mdl-radio__label">File Type</span>
-          </label>
-          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-            <input disabled type="radio" id="option-3" class="mdl-radio__button" name="options" value="owner">
-            <span class="mdl-radio__label">Owner</span>
-          </label>
-        </div>
-      </div>
-        <table id="file-list" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-          <thead>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric">File Name</th>
-              <th class="narrow">Quota Used (Bytes)</th>
-              <th class="narrow">Date Created</th>
-            </tr>
-          </thead>
-          <tbody id="table-slot">
-        </tbody>
-      </table>
-      <ul class="first-loader loader">
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-      </div>
-    </section>
-    <!-- <section class="mdl-layout__tab-panel" id="fixed-tab-3">
-      <div class="page-content"></div>
-    </section> -->
-  </main>
-</div>
-<div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
-  <div class="mdl-snackbar__text"></div>
-  <button class="mdl-snackbar__action" type="button"></button>
-</div>
+  <head>
+    <title>Drive API Quickstart</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <p>Drive API Quickstart</p>
 
-<!-- build:remove -->
-<script id="__bs_script__">//<![CDATA[
-  document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.17.5'><\/script>".replace("HOST", location.hostname));
-  //]]>
-  </script>
-  <!-- endbuild -->
-</body>
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button" style="display: none;">Authorize</button>
+    <button id="signout_button" style="display: none;">Sign Out</button>
+    <button id="clear_cache" onclick="handleCacheClearClick()">Clear Cache</button>
 
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+
+    <script type="text/javascript" src="driveRetrieval2.js"></script>
+
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    <p id='results'></p>
+  </body>
 </html>
